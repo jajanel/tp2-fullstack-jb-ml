@@ -1,0 +1,42 @@
+body{
+user-select: none;
+}
+
+/* Style des popups */
+.popup {
+    width: 94%;
+    height: 88%;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    border: #000000 solid 2px;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+/*Style des boutons descriptions et critique surles cartes produits*/
+.boutonCarte {
+    width: 45%;
+}
+
+/*Style de l'image dans le popup de confirmation de suppression*/
+.img-confirmation {
+    width: 40%;
+    height: 20%;
+    margin: auto;
+}
+
+/*Style du bouton  de suppression sur la carte produit*/
+.bouton-delete{
+    margin-left: 48%;
+}
+
+.noteOiseau{
+    font-size: 18px;
+}
+
