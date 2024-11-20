@@ -22,7 +22,12 @@ public class Critique  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private int noteGlobale;
+    private String nomOiseau;
+
+    private String raceOiseau;
+
+
+    private double noteGlobale;
 
     private String temperament;
 
