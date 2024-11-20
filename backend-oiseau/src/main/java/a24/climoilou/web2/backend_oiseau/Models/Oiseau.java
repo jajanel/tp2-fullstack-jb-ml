@@ -28,4 +28,13 @@ public class Oiseau {
     String origine;
     Date datePublication;
     String srcImage;
+
+    public Oiseau(String categorie, String race, double prix, String origine, Date datePublication, String srcImage) {
+        this.categorie = categorie;
+        this.race = race;
+        this.prix = prix;
+        this.origine = origine;
+        this.datePublication = datePublication;
+        this.srcImage = srcImage;
+    }
 }
