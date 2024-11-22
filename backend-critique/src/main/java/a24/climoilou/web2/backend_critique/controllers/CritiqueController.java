@@ -110,6 +110,11 @@ public class CritiqueController {
     }
 
 
+    @ExceptionHandler(CritiqueInvalideException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErreurCritique handleCritiqueInvalideException(CritiqueInvalideException ex) {
+        return new ErreurCritique(ex.getMessage());
+    }
 
 
 
