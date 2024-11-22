@@ -22,38 +22,20 @@ public class OiseauControlleur {
     }
 
     @GetMapping(value = "/oiseaux", produces = "application/json")
-    public String getAllOiseaux(){
+    public Collection<Oiseau> getAllOiseaux() {
+        logger.info("affichage des oiseaux");
+        return (Collection<Oiseau>) oiseauRepository.findAll();
 
-        return """ 
-                    [{
-                    "idOiseau": 1,
-                    "categorie": "poule",
-                    "race": "chantecler",
-                    "prix": 50,
-                    "origine": "amerique",
-                    "datePublication": "2024-12-12",
-                    "srcImage": "src/assets/images/poules/chantecler.jpg"
-                    },
-                    {
-                    "idOiseau": 2,
-                    "categorie": "poule",
-                    "race": "ayam cemami",
-                    "prix": 95,
-                    "origine": "asie",
-                    "datePublication": "2024-12-02",
-                    "srcImage": "src/assets/images/poules/ayam.jpg"
-                    }]
-               """;
     }
 
     @GetMapping("/oiseaux/{id}")
-    public Collection<Oiseau> getOiseauParBirdId(@PathVariable Long id){
-
-        return null;
+    public Collection<Oiseau> getOiseauParBirdId(@PathVariable Long id) {
+        logger.info("affichage de l'oiseau #" + id);
+        return (Collection<Oiseau>) oiseauRepository.findOiseauById(id);
     }
 
     @PostMapping("/ajouterOiseau")
-    public Long ajouterOiseau(@RequestBody Oiseau oiseau){
+    public Long ajouterOiseau(@RequestBody Oiseau oiseau) {
         logger.info("ajout de l'oiseau " + oiseau);
         Long id = -1L;
 
@@ -64,7 +46,7 @@ public class OiseauControlleur {
     }
 
     @DeleteMapping("/supprimerOiseau/{id}")
-    public void supprimerOiseau(@PathVariable Long id){
+    public void supprimerOiseau(@PathVariable Long id) {
         logger.info("deleteOiseau " + id);
 
         if (oiseauRepository.existsById(id)) {
@@ -77,7 +59,7 @@ public class OiseauControlleur {
     }
 
     @PatchMapping("/modifierOiseau/{id}")
-    public void modifierOiseau(@PathVariable Long id, @RequestBody Oiseau oiseau){
+    public void modifierOiseau(@PathVariable Long id, @RequestBody Oiseau oiseau) {
 
     }
 
