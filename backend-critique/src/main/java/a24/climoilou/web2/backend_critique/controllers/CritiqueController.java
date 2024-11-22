@@ -73,9 +73,13 @@ public class CritiqueController {
 
     @DeleteMapping("/supprimerCritique/{id}")
     public void supprimerCritique(@PathVariable Long id) {
-        logger.info("Suppression de la critique avec l'id: "+ id);
-
-
+        if (critiqueRepository.existsById(id)) {
+            critiqueRepository.deleteById(id);
+            logger.info("Suppression de la critique avec l'id: {}", id);
+        } else {
+            logger.warn("La critique demandée est inexistante. La suppression n'a pas eu lieu.");
+            throw new CritiqueNotFoundException();
+        }
     }
 
     @PatchMapping("/modifierCritique/{id}")
