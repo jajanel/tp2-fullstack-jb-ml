@@ -26,10 +26,10 @@ public class Oiseau {
     String race;
     double prix;
     String origine;
-    Date datePublication;
+    String datePublication;
     String srcImage;
 
-    public Oiseau(String categorie, String race, double prix, String origine, Date datePublication, String srcImage) {
+    public Oiseau(String categorie, String race, double prix, String origine, String datePublication, String srcImage) {
         this.categorie = categorie;
         this.race = race;
         this.prix = prix;
