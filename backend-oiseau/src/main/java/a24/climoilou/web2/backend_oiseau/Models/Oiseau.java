@@ -1,9 +1,6 @@
 package a24.climoilou.web2.backend_oiseau.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -17,19 +14,30 @@ import java.util.Date;
 @ToString
 @Entity
 public class Oiseau {
+
+    public enum Origine {asie, amerique, oceanie, europe, afrique}
+    public enum Categorie {poule, dinde, oie, canard}
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    String categorie;
+    @Column
+    @Enumerated(EnumType.STRING)
+    Categorie categorie;
+    @Column(unique = true)
     String race;
+    @Column
     double prix;
-    String origine;
+    @Column
+    @Enumerated(EnumType.STRING)
+    Origine origine;
+    @Column
     String datePublication;
+    @Column
     String srcImage;
 
-    public Oiseau(String categorie, String race, double prix, String origine, String datePublication, String srcImage) {
+    public Oiseau(Categorie categorie, String race, double prix, Origine origine, String datePublication, String srcImage) {
         this.categorie = categorie;
         this.race = race;
         this.prix = prix;
