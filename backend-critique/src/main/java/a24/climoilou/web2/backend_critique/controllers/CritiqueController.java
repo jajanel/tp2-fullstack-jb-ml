@@ -116,6 +116,11 @@ public class CritiqueController {
         return new ErreurCritique(ex.getMessage());
     }
 
+    @ExceptionHandler(CritiqueInvalideException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ErreurCritique handleCritiqueNotFoundException(CritiqueNotFoundException ex) {
+        return new ErreurCritique(ex.getMessage());
+    }
 
 
 }
