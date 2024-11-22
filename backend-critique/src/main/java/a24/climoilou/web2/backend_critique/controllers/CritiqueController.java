@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+
+import java.util.Optional;
 
 @CrossOrigin(origins = "")
 @RestController
@@ -65,24 +68,38 @@ public class CritiqueController {
 
     }
 
+    /**
+     * Retourne la note la plus haute de toute la liste de critique
+     * @param listeCritique la liste de critique données
+     * @return la note la plus haute
+     */
     @GetMapping("/getNotePlusHaute/")
     public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
-        double notePlusHaute = 2.90;
-        if (listeCritique != null){
+        Optional<Critique> notePlusHaute = listeCritique.stream()
+                .max(Comparator.comparingDouble(Critique::getNoteGlobale));
 
-        }
-
-        return notePlusHaute;
+        return notePlusHaute.get().getNoteGlobale();
     }
 
+    /**
+     * Retourne la note la plus basse de toute la liste de critique
+     * @param listeCritique la liste de critique données
+     * @return la note la plus basse
+     */
     @GetMapping("/getNotePlusBasse/")
     public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
-        double notePlusBasse = 2.90;
+        Optional<Critique> minNumber = listeCritique.stream()
+                .min(Comparator.comparingDouble(Critique::getNoteGlobale));
 
-
-        return notePlusBasse;
+                return minNumber.get().getNoteGlobale();
     }
 
+
+    /**
+     *
+     * @param listeCritique
+     * @return
+     */
     @GetMapping("/getNoteMoyenne/")
     public double noteMoyenne(@RequestBody List<Critique> listeCritique) {
         double noteMoyenne = 2.90;
@@ -91,6 +108,9 @@ public class CritiqueController {
         return noteMoyenne;
 
     }
+
+
+
 
 
 }
