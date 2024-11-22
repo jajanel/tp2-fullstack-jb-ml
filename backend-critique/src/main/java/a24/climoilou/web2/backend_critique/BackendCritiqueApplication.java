@@ -22,10 +22,6 @@ public class BackendCritiqueApplication implements CommandLineRunner {
 
 	private Logger logger = LoggerFactory.getLogger(CritiqueController.class);
 
-	@Autowired
-	private CritiqueRepository critiqueRepository;
-
-
 
 
 	@Override
