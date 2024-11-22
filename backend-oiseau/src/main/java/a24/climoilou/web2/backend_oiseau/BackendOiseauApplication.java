@@ -2,6 +2,7 @@ package a24.climoilou.web2.backend_oiseau;
 
 import a24.climoilou.web2.backend_oiseau.Models.Oiseau;
 import a24.climoilou.web2.backend_oiseau.Repositories.OiseauRepository;
+import a24.climoilou.web2.backend_oiseau.Validators.OiseauValidateur;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -84,6 +85,11 @@ public class BackendOiseauApplication implements CommandLineRunner {
 		}
 
 		oiseauRepository.findAll().forEach(System.out::println);
+	}
+
+	@Bean
+	OiseauValidateur getValidateurOiseau() {
+		return new OiseauValidateur();
 	}
 
 
