@@ -42,6 +42,17 @@ public class CritiqueController {
         return (Collection<Critique>) critiqueRepository.findAll();
     }
 
+    /**
+     * Retourne toutes les critiques pour le nom de l'oiseau donné en param
+     *
+     * @param nomOiseau le nom de l'oiseau pour lequel on cherche les critiques
+     * @return toutes les critiques pour cet oiseau
+     * @throws InterruptedException si le serveur prend trop de temps à répondre
+     */
+    @GetMapping("/critiques/{nomOiseau}")
+    public Collection<Critique> getCritiqueParNomOiseau(@PathVariable String nomOiseau) throws InterruptedException {
+        logger.info("Retournes toutes les critiques pour l'oiseau: {}", nomOiseau);
+        return critiqueRepository.findFirstByNomOiseau(nomOiseau);
     }
 
     @PostMapping("/ajouterCritique")
