@@ -57,18 +57,17 @@ public class CritiqueController {
 
     @PostMapping("/ajouterCritique")
     public Long ajouterCritique(@RequestBody Critique critique) {
-        if (critique != null){
-            if (critiqueValidateur.validateCritiqueComplete(critique)){
+        Long id = 0L;
 
-                logger.info("Crée une nouvelle critique avec l'id: "+ critique.getId());
-
+        if (critique != null) {
+            if (critiqueValidateur.validateCritiqueComplete(critique)) {
+                id = critiqueRepository.save(critique).getId();
+                logger.info("Crée une nouvelle critique avec l'id: {}", id);
             } else {
                 logger.warn("La critique n'a pas pu être crée");
-
+                throw new CritiqueInvalideException();
             }
         }
-
-        Long id = 2L;
         return id;
     }
 
