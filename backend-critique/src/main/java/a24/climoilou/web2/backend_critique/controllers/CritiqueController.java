@@ -82,9 +82,28 @@ public class CritiqueController {
         }
     }
 
+    /**
+     * Fonction qui permet de modifier une critique
+     * @param id l'id de la critique a modifier
+     * @param critiqueModifiee la critique avec ses nouvelles informations passée en paramètres
+     * @return la critique modifiée
+     */
     @PatchMapping("/modifierCritique/{id}")
-    public void modifierCritique(@PathVariable Long id, @RequestBody Critique critique) {
-
+    public Critique modifierCritique(@PathVariable Long id, @RequestBody Critique critiqueModifiee) {
+    Critique critiqueRet = null;
+    if (critiqueValidateur.validateCritiqueComplete(critiqueModifiee)){
+        critiqueRet = critiqueRepository.findById(id)
+                .map(critique1 -> {
+                    critique1.setBeaute(critiqueModifiee.getBeaute());
+                    critique1.setTemperament(critiqueModifiee.getTemperament());
+                    critique1.setUtilisation(critiqueModifiee.getUtilisation());
+                    critique1.setNoteGlobale(critiqueModifiee.getNoteGlobale());
+                    critique1.setRaceOiseau(critiqueModifiee.getRaceOiseau());
+                    critique1.setNomOiseau(critiqueModifiee.getNomOiseau());
+                    return critiqueRepository.save(critiqueModifiee);
+                }).orElseThrow(CritiqueInvalideException::new);
+    }
+    return critiqueRet;
     }
 
     /**
