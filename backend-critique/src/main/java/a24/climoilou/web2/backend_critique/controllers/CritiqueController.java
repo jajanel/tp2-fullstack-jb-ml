@@ -71,6 +71,10 @@ public class CritiqueController {
         return id;
     }
 
+    /**
+     * Fonction qui permet de supprimer une critique de par son ID passée en paramètres
+     * @param id l'id de la critique à supprimer
+     */
     @DeleteMapping("/supprimerCritique/{id}")
     public void supprimerCritique(@PathVariable Long id) {
         if (critiqueRepository.existsById(id)) {
