@@ -1,10 +1,15 @@
 package a24.climoilou.web2.backend_critique.controllers;
 
+import a24.climoilou.web2.backend_critique.exceptions.CritiqueInvalideException;
+import a24.climoilou.web2.backend_critique.exceptions.CritiqueNotFoundException;
+import a24.climoilou.web2.backend_critique.exceptions.ErreurCritique;
 import a24.climoilou.web2.backend_critique.models.Critique;
+import a24.climoilou.web2.backend_critique.repositories.CritiqueRepository;
 import a24.climoilou.web2.backend_critique.validators.CritiqueValidateur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,24 +24,24 @@ public class CritiqueController {
 
     @Autowired
     private CritiqueValidateur critiqueValidateur;
+    @Autowired
+    private CritiqueRepository critiqueRepository;
 
 
     private Logger logger = LoggerFactory.getLogger(CritiqueController.class);
 
-
+    /**
+     * Retourne toutes les critiques contenues dans le repository des critiques
+     *
+     * @return toutes les critiques
+     * @throws InterruptedException si le serveur prend trop de temps à répondre
+     */
     @GetMapping("/critiques")
-    public Collection<Critique> getAllCritiques() {
+    public Collection<Critique> getAllCritiques() throws InterruptedException {
         logger.info("Retourne toutes les critiques confondues");
-
-        return null;
+        return (Collection<Critique>) critiqueRepository.findAll();
     }
 
-    @GetMapping("/critiques/{id}")
-    public Collection<Critique> getCritiqueParBirdId(@PathVariable Long id) {
-        logger.info("Retournes toutes les critiques pour l'id " + id);
-
-
-        return null;
     }
 
     @PostMapping("/ajouterCritique")
