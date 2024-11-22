@@ -3,21 +3,22 @@ package a24.climoilou.web2.backend_oiseau.Controllers;
 import a24.climoilou.web2.backend_oiseau.Exceptions.OiseauNotFoundException;
 import a24.climoilou.web2.backend_oiseau.Models.Oiseau;
 import a24.climoilou.web2.backend_oiseau.Repositories.OiseauRepository;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.logging.Logger;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 public class OiseauControlleur {
 
-    private final OiseauRepository oiseauRepository;
+    @Autowired
+    private OiseauRepository oiseauRepository;
     private Logger logger = (Logger) LoggerFactory.getLogger(OiseauControlleur.class);
 
-    public OiseauControlleur(OiseauRepository oiseauRepository) {
-        this.oiseauRepository = oiseauRepository;
+    public OiseauControlleur() {
     }
 
     @GetMapping(value = "/oiseaux", produces = "application/json")
@@ -70,7 +71,7 @@ public class OiseauControlleur {
             oiseauRepository.deleteById(id);
 
         } else {
-            logger.warning("le id demandé n'existe pas");
+            logger.warn("le id demandé n'existe pas");
             throw new OiseauNotFoundException();
         }
     }

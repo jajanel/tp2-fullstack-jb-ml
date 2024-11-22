@@ -10,13 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 @SpringBootApplication
 public class BackendOiseauApplication {
 
 	@Autowired
-	private static OiseauRepository oiseauRepository;
+	private OiseauRepository oiseauRepository;
 
 	@Bean
 	CommandLineRunner initData() {
