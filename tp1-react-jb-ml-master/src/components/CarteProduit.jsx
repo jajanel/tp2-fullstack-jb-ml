@@ -36,8 +36,9 @@ export default function CarteProduit(props) {
         }
     };
 
-    //Filtrer les critiques pour l'oiseau spécifique
-    const filteredCritiques = props.dataCritiques.filter(critique => critique.idOiseau === props.id);
+
+    // //Filtrer les critiques pour l'oiseau spécifique
+    // const filteredCritiques = props.dataCritiques.filter(critique => critique.idOiseau === props.id);
 
     return (
         <>
@@ -68,8 +69,6 @@ export default function CarteProduit(props) {
                         race={props.race}
                         estOuvertCritique={estOuvertCritique}
                         toggleModalCritique={toggleModalCritique}
-                        dataCritiques={filteredCritiques}
-                        setDataCritiques={props.setDataCritiques}
                     />
                 </div>
                 <div className="card-footer">
