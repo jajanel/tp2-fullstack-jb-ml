@@ -24,13 +24,7 @@ function App() {
     //TODO MAEK
     const [dataOiseau,  setDataOiseau] = useState(() => getDonneesLocalStorage("dataOiseau", donnesOiseauxDefaut));
 
-    const [dataCritiques,  setDataCritiques] = useState({
-        idCritique: "",
-        moyenneGlobale: 0,
-        noteTemperament: 0,
-        noteBeaute: 0,
-        noteUtilisation: 0,
-    });
+
     const ouvertStatistiquesState = useState(false);
 
 
@@ -70,7 +64,7 @@ function App() {
                 <DataCritiqueContext.Provider value={[dataCritiques, setDataCritiques]}>
                     <Navbar
                         surChangementCategorie={handleChangementCategorie}
-                        dataCritiqueState={[dataCritiques, setDataCritiques]}
+                        //dataCritiqueState={[dataCritiques, setDataCritiques]}
                         dataOiseauState={[dataOiseau, setDataOiseau]}
                         oiseauxFiltre={oiseauxFiltre}
                         oiseauxTri={[boolOiseauTrie, setBoolOiseauTrie]}

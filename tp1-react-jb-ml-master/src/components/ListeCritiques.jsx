@@ -5,7 +5,13 @@ import {DataCritiqueContext} from "./contexts/DataCritiqueContext.jsx";
 import {ajouterCritique, fetchCritiqueParOiseau} from "../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
-    const [dataCritique, setDataCritique] = useContext(DataCritiqueContext);
+    const [dataCritiques,  setDataCritiques] = useState({
+        idCritique: "",
+        moyenneGlobale: 0,
+        noteTemperament: 0,
+        noteBeaute: 0,
+        noteUtilisation: 0,
+    });
     const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
     const [isLoading, setIsLoading] = useState(false);
 
@@ -40,7 +46,7 @@ export default function ListeCritiques(props) {
         try {
             const nouvelID = await ajouterCritique(critique);
             critique.id = nouvelID;3
-            setDataCritique(old => {
+            setDataCritiques(old => {
                 return [critique, ...old];
             })
         } catch (e) {
@@ -56,7 +62,7 @@ export default function ListeCritiques(props) {
             setIsLoading(true);
             try{
                 const donneesServeur = await fetchCritiqueParOiseau()
-                setDataCritique(donneesServeur)
+                setDataCritiques(donneesServeur)
             } catch (erreurServeur){
                 setErreurServeur({error: "Erreur de fetching des produits du serveur", message: erreurServeur.message});
             } finally {
@@ -64,7 +70,7 @@ export default function ListeCritiques(props) {
             }
         }
         fetchDataCritiqueParOiseau();
-    }, [fetchCritiqueParOiseau, setDataCritique]);
+    }, [fetchCritiqueParOiseau, setDataCritiques]);
 
 
 
@@ -84,7 +90,8 @@ export default function ListeCritiques(props) {
                                 <div className="col my-2">
                                     <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les critiques</h5>
                                     <hr/>
-                                    {dataCritique.filter(critique => critique.idOiseau === props.id).map((critique) => (
+                                    {/*TODO Vérifier ici*/}
+                                    {dataCritiques.filter(critique => critique.idOiseau === props.id).map((critique) => (
                                         <CritiquePrecedente
                                             key={critique.idCritique}
                                             idCritique={critique.idCritique}
