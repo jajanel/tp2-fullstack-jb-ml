@@ -22,8 +22,7 @@ public class Critique  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nomOiseau;
-
+    //nom oiseau (Chantelcler, SIlkie, Rousse, Bain, Ocellated, etc)
     private String raceOiseau;
 
 
