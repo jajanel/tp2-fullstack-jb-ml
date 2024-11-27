@@ -9,6 +9,7 @@ import  {filtrerEtMettreAJourCritiques} from "./classes/gestionCatalogueCritique
 import {DataoiseauContext} from "./components/contexts/DataOiseauContext.jsx";
 import {DataCritiqueContext} from "./components/contexts/DataCritiqueContext.jsx";
 import Footer from "./components/Footer.jsx";
+import {fetchCritiqueParOiseau} from "./scripts/http-critiques.js";
 
 // Fonction pour obtenir les données du local storage ou utiliser les données par défaut
 const getDonneesLocalStorage = (key, donneesParDefaut) => {
@@ -17,24 +18,31 @@ const getDonneesLocalStorage = (key, donneesParDefaut) => {
 };
 
 function App() {
-    //Initialisé la catégorie sélectionnée à tous au départ de l'app
     const [categorieSelectionne, setCategorieSelectionne] = useState("tous");
-    //Initialiser le state à faux pour s'il faut trier le catalogue par note moyenne ou pas.
     const [boolOiseauTrie, setBoolOiseauTrie] = useState(false);
 
-    // Initialiser le state avec les données du local storage, ou sinon avec les données par défaut (la liste directement prise du fichier "json")
+    //TODO MAEK
     const [dataOiseau,  setDataOiseau] = useState(() => getDonneesLocalStorage("dataOiseau", donnesOiseauxDefaut));
-    const [dataCritiques,  setDataCritiques] = useState(getDonneesLocalStorage("dataCritiques", donneesCritiquesDefaut));
+
+    const [dataCritiques,  setDataCritiques] = useState({
+        idCritique: "",
+        moyenneGlobale: 0,
+        noteTemperament: 0,
+        noteBeaute: 0,
+        noteUtilisation: 0,
+    });
     const ouvertStatistiquesState = useState(false);
+
+
 
 
     // Resauvegarder les données dans le local storage à chauque changement
     useEffect(() => {
         localStorage.setItem("dataOiseau", JSON.stringify(dataOiseau));
     }, [dataOiseau]);
-    useEffect(() => {
-        localStorage.setItem("dataCritiques", JSON.stringify(dataCritiques));
-    }, [dataCritiques]);
+    // useEffect(() => {
+    //     localStorage.setItem("dataCritiques", JSON.stringify(dataCritiques));
+    // }, [dataCritiques]);
 
     // Changer la valeur de la catégorie montrée dans le catalogue en utilisant le setter setCategorieSelectionne
     const handleChangementCategorie = (categorieOiseau) => {
@@ -73,10 +81,10 @@ function App() {
                         oiseauxFiltre={oiseauxFiltre}
                         oiseauxTriBool={[boolOiseauTrie, setBoolOiseauTrie]}
                         dataOiseauState={[dataOiseau, setDataOiseau]}
-                        dataCritiqueState={[dataCritiques, setDataCritiques]}
                         tuerOiseau={handleTuerOiseau}
                         ouvertStatistiquesState={ouvertStatistiquesState}
                         fermerStatistiquesToggle={fermerStatistiquesToggle}
+
                     />
                 </DataCritiqueContext.Provider>
             </DataoiseauContext.Provider>
