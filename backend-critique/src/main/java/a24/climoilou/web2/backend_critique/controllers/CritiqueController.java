@@ -87,6 +87,20 @@ public class CritiqueController {
     }
 
     /**
+     *Fonction qui supprime toutes les critiques associées à un produit (oiseau) de par son nom.
+     * @param nomOiseau le nom de l'oiseau pour lequel on souhaite supprimer toutes les critiques.
+     */
+    @DeleteMapping("/supprimerToutesCritiquesParOiseau/{nomOiseau}")
+    public void supprimerToutesCritiquesParOiseau(@PathVariable String nomOiseau){
+        if (critiqueRepository.findAllByNomOiseau(nomOiseau) != null) {
+            logger.info("Suppression de toutes les critiques pour {}", nomOiseau);
+          critiqueRepository.deleteAll( critiqueRepository.findAllByNomOiseau(nomOiseau));
+        }
+        logger.warn("Il n'y a aucune critique à supprimer pour {}", nomOiseau);
+        throw new CritiqueNotFoundException();
+    }
+
+    /**
      * Fonction qui permet de modifier une critique
      * @param id l'id de la critique a modifier
      * @param critiqueModifiee la critique avec ses nouvelles informations passée en paramètres

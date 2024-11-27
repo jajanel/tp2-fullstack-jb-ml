@@ -9,4 +9,6 @@ public interface CritiqueRepository extends CrudRepository<Critique, Long> {
 
 Collection<Critique> findFirstByNomOiseau(String nomOiseau);
 
+Iterable<Critique> findAllByNomOiseau(String nomOiseau);
+
 }
