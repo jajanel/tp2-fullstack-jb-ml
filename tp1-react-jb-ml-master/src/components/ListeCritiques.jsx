@@ -1,11 +1,13 @@
 import MaCritique from "./MaCritique.jsx";
 import CritiquePrecedente from "./CritiquePrecedente.jsx";
-import {ajouterCritique, newIdCritique} from "../classes/gestionCatalogueCritique.js";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {DataCritiqueContext} from "./contexts/DataCritiqueContext.jsx";
+import {ajouterCritique, fetchCritiqueParOiseau} from "../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
     const [dataCritique, setDataCritique] = useContext(DataCritiqueContext);
+    const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
+    const [isLoading, setIsLoading] = useState(false);
 
     //Création du format de la date pour affichage correct
     function dateFormat(date) {
@@ -14,48 +16,38 @@ export default function ListeCritiques(props) {
 
     /**
      * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
-     * @param event l'évènement de submit du formulaire
-     * @param idOiseau l'id de l'oiseau associé à la critique
-     */
-    function creerCritique(event, idOiseau) {
+     * @param event l'évènement de submit du formulaire*/
+    function handleSubmitFormCreerCritique(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
-        let idCritique = newIdCritique();
-        let formCritique = document.getElementById("critiqueForm");
 
         const nouvelleCritique = {
-            idCritique: idCritique,
-            idOiseau: idOiseau,
             note: formData.get("note"),
             temperament: formData.get("temperament"),
             beaute: formData.get("beaute"),
             utilisation: formData.get("utilisation"),
             dateCritique: dateFormat(new Date)
         }
+        ajouterNouvelleCritique(nouvelleCritique);
 
         // Vérifier si les champs sont vides
-        if(verifierInfos(nouvelleCritique)){
-            setDataCritique(critique=> critique.concat(nouvelleCritique));
-            ajouterCritique(nouvelleCritique);
-            alert("La critique #" + idCritique + " a été créée");
-            formCritique.reset();
-        }
-        else{
-            alert("un ou plusieurs champs sont vides")
-        }
+        //TODO: VÉRIFIER CHAMPS:
+
+        // si champs pas vides, alors ok
     }
 
-    /**
-     * Fonction pour vérifier si les champs de la critique sont vides
-     * @param critique la critique à vérifier
-     * @returns {boolean} si les champs sont vides ou non
-     */
-    function verifierInfos(critique){
-        let confirme = true;
-        if(critique.beaute === "" || critique.temperament === "" || critique.utilisation === ""){
-            confirme = false;
+
+    async function ajouterNouvelleCritique(critique) {
+        try {
+            const nouvelID = await ajouterCritique(critique);
+            critique.id = nouvelID;3
+            setDataCritique(old => {
+                return [critique, ...old];
+            })
+        } catch (e) {
+            console.log(e);
+            setErreurServeur({error: "error", message: e.message});
         }
-        return confirme;
     }
 
     return (
@@ -67,7 +59,7 @@ export default function ListeCritiques(props) {
                             id={props.id}
                             categorie={props.categorie}
                             race={props.race}
-                            creerCritique={creerCritique}
+                            creerCritique={handleSubmitFormCreerCritique}
                         />
                         <div className="  my-4">
                             <div className="row text-start m-4">
