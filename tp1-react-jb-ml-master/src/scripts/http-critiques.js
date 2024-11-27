@@ -53,4 +53,20 @@ export async function supprimerCritique(idCritique){
     return await response.json()
 }
 
+/**
+ * Supprimer toutes les critiques associées à un oiseau selon son nom (race)
+ * @param nomOiseau la race de l'oiseau pour lequel on doit supprimer toutes les critiques
+ */
+export async function supprimerToutesCritiqueParOiseau(nomOiseau){
+    const response = await fetch("http://localhost:8080/supprimerToutesCritiquesParOiseau/" + nomOiseau,
+        {
+            method: 'DELETE',
+        })
+
+    if (!response.ok) throw new Error("Les critiques n'ont pas pu être supprimées")
+
+    return await response.json()
+}
+
+
 
