@@ -30,7 +30,6 @@ export default function ListeCritiques(props) {
         }
         ajouterNouvelleCritique(nouvelleCritique);
 
-        // Vérifier si les champs sont vides
         //TODO: VÉRIFIER CHAMPS:
 
         // si champs pas vides, alors ok
@@ -49,6 +48,25 @@ export default function ListeCritiques(props) {
             setErreurServeur({error: "error", message: e.message});
         }
     }
+
+
+    //Pour fetch les critiques du serveur
+    useEffect(() => {
+        async function fetchDataCritiqueParOiseau(){
+            setIsLoading(true);
+            try{
+                const donneesServeur = await fetchCritiqueParOiseau()
+                setDataCritique(donneesServeur)
+            } catch (erreurServeur){
+                setErreurServeur({error: "Erreur de fetching des produits du serveur", message: erreurServeur.message});
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchDataCritiqueParOiseau();
+    }, [fetchCritiqueParOiseau, setDataCritique]);
+
+
 
     return (
         <>
