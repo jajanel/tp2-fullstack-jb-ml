@@ -28,10 +28,10 @@ public class Critique  {
 
     private double noteGlobale;
 
-    private String temperament;
+    private double temperament;
 
-    private String beaute;
-    private String utilisation;
+    private double beaute;
+    private double utilisation;
 
 
 
