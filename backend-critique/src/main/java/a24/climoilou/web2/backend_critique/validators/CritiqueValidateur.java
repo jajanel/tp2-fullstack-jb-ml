@@ -26,8 +26,6 @@ public class CritiqueValidateur {
         return validateRaceOiseau(critique.getRaceOiseau()) &&
                 validateNotes(critique.getTemperament()) &&
                 validateNotes(critique.getBeaute()) &&
-                validateNotes(critique.getUtilisation()) &&
-                validateNotes(critique.getNoteGlobale());
-    }
+                validateNotes(critique.getUtilisation());}
 
 }
