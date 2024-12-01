@@ -104,31 +104,34 @@ public class CritiqueController {
         throw new CritiqueNotFoundException();
     }
 
-
-    /**
-     * Retourne la note la plus haute de toute la liste de critique
-     *
-     * @param listeCritique la liste de critique données
-     * @return la note la plus haute
-     */
-    @GetMapping("/getNotePlusHaute/")
-    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
-        Optional<Critique> notePlusHaute = listeCritique.stream().max(Comparator.comparingDouble(Critique::getNoteGlobale));
-        return notePlusHaute.get().getNoteGlobale();
     }
 
     /**
-     * Retourne la note la plus basse de toute la liste de critique
-     *
-     * @param listeCritique la liste de critique données
-     * @return la note la plus basse
-     */
-    @GetMapping("/getNotePlusBasse/")
-    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
-        Optional<Critique> minNumber = listeCritique.stream().min(Comparator.comparingDouble(Critique::getNoteGlobale));
 
-        return minNumber.get().getNoteGlobale();
-    }
+//    /**
+//     * Retourne la note la plus haute de toute la liste de critique
+//     *
+//     * @param listeCritique la liste de critique données
+//     * @return la note la plus haute
+//     */
+//    @GetMapping("/getNotePlusHaute/")
+//    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
+//        Optional<Critique> notePlusHaute = listeCritique.stream().max(Comparator.comparingDouble(Critique::getNoteGlobale));
+//        return notePlusHaute.get().getNoteGlobale();
+//    }
+
+//    /**
+//     * Retourne la note la plus basse de toute la liste de critique
+//     *
+//     * @param listeCritique la liste de critique données
+//     * @return la note la plus basse
+//     */
+//    @GetMapping("/getNotePlusBasse/")
+//    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
+//        Optional<Critique> minNumber = listeCritique.stream().min(Comparator.comparingDouble(Critique::getNoteGlobale));
+//
+//        return minNumber.get().getNoteGlobale();
+//    }
 
 
     //MÉTHODE TESTÉE
