@@ -136,19 +136,25 @@ public class CritiqueController implements CommandLineRunner {
 //        Optional<Critique> notePlusHaute = listeCritique.stream().max(Comparator.comparingDouble(Critique::getNoteGlobale));
 //        return notePlusHaute.get().getNoteGlobale();
 //    }
-
-//    /**
-//     * Retourne la note la plus basse de toute la liste de critique
-//     *
-//     * @param listeCritique la liste de critique données
-//     * @return la note la plus basse
-//     */
-//    @GetMapping("/getNotePlusBasse/")
-//    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
-//        Optional<Critique> minNumber = listeCritique.stream().min(Comparator.comparingDouble(Critique::getNoteGlobale));
-//
-//        return minNumber.get().getNoteGlobale();
-//    }
+    /**
+     * Retourne la note la plus basse de toute la liste de critique
+     *
+     * @param listeCritique la liste de critique données
+     * @return la note la plus basse
+     */
+    @GetMapping("/getNotePlusBasse/")
+    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
+        return listeCritique.stream()
+                .mapToDouble(critique -> {
+                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
+                        return critiqueRepository.calculNoteGlobale(critique.getId());
+                    } else {
+                        throw new CritiqueNotFoundException();
+                    }
+                })
+                .min()
+                .orElseThrow(CritiqueNotFoundException::new);
+    }
 
 
     //MÉTHODE TESTÉE
@@ -177,6 +183,8 @@ public class CritiqueController implements CommandLineRunner {
         return new ErreurCritique(ex.getMessage());
     }
 
+
+    //Exception fonctionnelle
     @ExceptionHandler(CritiqueInvalideException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErreurCritique handleCritiqueNotFoundException(CritiqueNotFoundException ex) {
