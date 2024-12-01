@@ -131,17 +131,23 @@ public class CritiqueController {
     }
 
 
+    //MÉTHODE TESTÉE
     /**
-     * @param listeCritique
-     * @return
+     * Retourne la note moyenne de la critique qui est passé en paramètre
+     *
+     * @param idCritique l'id de la critique pour laquelle on souhaite obtenir la note moyenne
+     * @return la note moyenne de la critique
      */
-    @GetMapping("/getNoteMoyenne/")
-    public double noteMoyenne(@RequestBody List<Critique> listeCritique) {
-        double noteMoyenne = 2.90;
-
-
-        return noteMoyenne;
-
+    @GetMapping("/getNoteMoyenne/{idCritique}")
+    public double getNoteGlobale(@PathVariable Long idCritique) {
+        if (critiqueRepository.findById(idCritique).isPresent()) {
+            logger.info("Retourne la note moyenne de la critique {}", idCritique);
+            logger.info("La note moyenne est de: {}", critiqueRepository.calculNoteGlobale(idCritique));
+            return critiqueRepository.calculNoteGlobale(idCritique);
+        } else {
+            logger.warn("La critique demandée {} n'existe pas", idCritique);
+            throw new CritiqueNotFoundException();
+        }
     }
 
 
