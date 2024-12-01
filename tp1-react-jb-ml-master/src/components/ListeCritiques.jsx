@@ -22,7 +22,8 @@ export default function ListeCritiques(props) {
 
     /**
      * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
-     * @param event l'évènement de submit du formulaire*/
+     * @param event l'évènement de submit du formulaire
+     * */
     function handleSubmitFormCreerCritique(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -90,18 +91,9 @@ export default function ListeCritiques(props) {
                                 <div className="col my-2">
                                     <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les critiques</h5>
                                     <hr/>
-                                    {/*TODO Vérifier ici*/}
-                                    {dataCritiques.filter(critique => critique.idOiseau === props.id).map((critique) => (
-                                        <CritiquePrecedente
-                                            key={critique.idCritique}
-                                            idCritique={critique.idCritique}
-                                            note={critique.note}
-                                            temperament={critique.temperament}
-                                            beaute={critique.beaute}
-                                            utilisation={critique.utilisation}
-                                            setDataCritiques={props.setDataCritiques}
-                                        />
-                                    ))}
+                                    {/*TODO: pour chaque critique dans le fetch all critique pour une race, map pour les afficher et passer en props pour le component*/}
+                                        <CritiquePrecedente/>
+
                                 </div>
                             </div>
                         </div>
