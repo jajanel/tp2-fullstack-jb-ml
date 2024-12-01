@@ -107,9 +107,11 @@ public class CritiqueController {
         throw new CritiqueNotFoundException();
     }
 
+    public void supprimerToutesCritiques() {
+        logger.info("Suppression de toutes les critiques");
+        critiqueRepository.deleteAll();
     }
 
-    /**
 
 //    /**
 //     * Retourne la note la plus haute de toute la liste de critique
