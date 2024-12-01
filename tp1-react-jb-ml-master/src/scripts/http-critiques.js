@@ -28,7 +28,7 @@ export async function fetchCritiqueParOiseau(nomOiseau){
  * @returns {Promise<any>} la réponse json
  */
 export async function ajouterCritique(critique){
-    const response = await fetch("http://localhost:8080/ajouterCritique/" + critique,
+    const response = await fetch("http://localhost:8080/ajouterCritique",
         {
             method: 'POST',
             body: JSON.stringify(critique),

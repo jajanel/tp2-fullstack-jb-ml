@@ -35,7 +35,7 @@ export default function MaCritique(props) {
                         </div>
                     </div>
                     <div className="col d-flex justify-content-center">
-                        <div className="text-center text-uppercase form-select-lg"> ID #{props.id}</div>
+                        <div className="text-center text-uppercase form-select-lg"> ID #</div>
                     </div>
                 </div>
                 <hr/>

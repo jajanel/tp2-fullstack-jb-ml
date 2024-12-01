@@ -6,11 +6,10 @@ import {ajouterCritique, fetchCritiqueParOiseau} from "../scripts/http-critiques
 
 export default function ListeCritiques(props) {
     const [dataCritiques,  setDataCritiques] = useState({
-        idCritique: "",
-        moyenneGlobale: 0,
-        noteTemperament: 0,
-        noteBeaute: 0,
-        noteUtilisation: 0,
+        raceOiseau: "",
+        noteTemperament: 0.0,
+        noteBeaute: 0.0,
+        noteUtilisation: 0.0,
     });
     const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
     const [isLoading, setIsLoading] = useState(false);
@@ -29,11 +28,10 @@ export default function ListeCritiques(props) {
         const formData = new FormData(event.target);
 
         const nouvelleCritique = {
-            note: formData.get("note"),
+            raceOiseau: props.race,
             temperament: formData.get("temperament"),
             beaute: formData.get("beaute"),
             utilisation: formData.get("utilisation"),
-            dateCritique: dateFormat(new Date)
         }
         ajouterNouvelleCritique(nouvelleCritique);
 
@@ -46,10 +44,8 @@ export default function ListeCritiques(props) {
     async function ajouterNouvelleCritique(critique) {
         try {
             const nouvelID = await ajouterCritique(critique);
-            critique.id = nouvelID;3
-            setDataCritiques(old => {
-                return [critique, ...old];
-            })
+            critique.id = nouvelID
+            setDataCritiques(old => [critique, ...old])
         } catch (e) {
             console.log(e);
             setErreurServeur({error: "error", message: e.message});
