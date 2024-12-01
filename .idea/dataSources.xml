@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="critique" uuid="625152b9-d0cf-46c8-8e1f-a8b502927336">
+    <data-source source="LOCAL" name="critique" uuid="6fe263e2-1b47-4575-bd47-862645a78980">
       <driver-ref>h2.unified</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:$PROJECT_DIR$/backend-critique/critiquedb/critique</jdbc-url>
+      <jdbc-url>jdbc:h2:$PROJECT_DIR$/backend-critique/critique/critique</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
