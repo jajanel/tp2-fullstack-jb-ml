@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -22,19 +22,19 @@ public class Critique  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nomOiseau;
-
+    //nom oiseau (Chantelcler, SIlkie, Rousse, Bain, Ocellated, etc)
     private String raceOiseau;
-
-
-    private double noteGlobale;
-
-    private String temperament;
-
-    private String beaute;
-    private String utilisation;
+    private double temperament;
+    private double beaute;
+    private double utilisation;
 
 
 
+    public Critique(String raceOiseau, double temperament, double beaute, double utilisation) {
+        this.raceOiseau = raceOiseau;
+        this.temperament = temperament;
+        this.beaute = beaute;
+        this.utilisation = utilisation;
+    }
 
 }

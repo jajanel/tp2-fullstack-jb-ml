@@ -14,21 +14,12 @@ import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication
-public class BackendCritiqueApplication implements CommandLineRunner {
+public class BackendCritiqueApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendCritiqueApplication.class, args);
 	}
 
-	private Logger logger = LoggerFactory.getLogger(CritiqueController.class);
-
-
-
-	@Override
-	public void run(String... args) throws Exception {
-
-
-	}
 
 	@Bean
 	CritiqueValidateur getCritiqueValidateur(){
