@@ -3,9 +3,9 @@ import './App.css';
 import Navbar from "./components/Navbar.jsx";
 import CatalogueOiseaux from "./components/CatalogueOiseaux.jsx";
 import {dataOiseau, dataOiseau as donnesOiseauxDefaut} from "./assets/oiseaux.js";
-import {dataCritiques, dataCritiques as donneesCritiquesDefaut} from "./assets/critiques.js";
+//import {dataCritiques, dataCritiques as donneesCritiquesDefaut} from "./assets/critiques.js";
 import {filtrerEtMettreAJourOiseaux, supprimerOiseau} from "./classes/gestionCatalogueOiseaux.js";
-import  {filtrerEtMettreAJourCritiques} from "./classes/gestionCatalogueCritique.js";
+//import  {filtrerEtMettreAJourCritiques} from "./classes/gestionCatalogueCritique.js";
 import {DataoiseauContext} from "./components/contexts/DataOiseauContext.jsx";
 import {DataCritiqueContext} from "./components/contexts/DataCritiqueContext.jsx";
 import Footer from "./components/Footer.jsx";
@@ -49,7 +49,7 @@ function App() {
     const handleTuerOiseau = (idOiseau) => {
         supprimerOiseau(idOiseau);
         filtrerEtMettreAJourOiseaux(idOiseau, setDataOiseau);
-        filtrerEtMettreAJourCritiques(idOiseau, setDataCritiques);
+        //filtrerEtMettreAJourCritiques(idOiseau, setDataCritiques);
     };
 
     // Fermer le modal statistiques (utilisé pour fermer la section statiostique lorsqu'on change la catégorie utilisée) pour revenir au mode normal.
@@ -61,7 +61,6 @@ function App() {
     return (
         <>
             <DataoiseauContext.Provider value={[dataOiseau, setDataOiseau]}>
-                <DataCritiqueContext.Provider value={[dataCritiques, setDataCritiques]}>
                     <Navbar
                         surChangementCategorie={handleChangementCategorie}
                         //dataCritiqueState={[dataCritiques, setDataCritiques]}
@@ -80,7 +79,6 @@ function App() {
                         fermerStatistiquesToggle={fermerStatistiquesToggle}
 
                     />
-                </DataCritiqueContext.Provider>
             </DataoiseauContext.Provider>
             <Footer/>
         </>

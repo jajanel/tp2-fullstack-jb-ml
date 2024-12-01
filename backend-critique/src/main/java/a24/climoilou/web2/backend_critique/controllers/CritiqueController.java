@@ -19,7 +19,7 @@ import java.util.List;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = "")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class CritiqueController implements CommandLineRunner {
 
@@ -61,19 +61,15 @@ public class CritiqueController implements CommandLineRunner {
      */
     @GetMapping("/critiques/{raceOiseau}")
     public Collection<Critique> getCritiqueParNomOiseau(@PathVariable String raceOiseau) throws InterruptedException {
-        if (critiqueRepository.existsByRaceOiseau(raceOiseau)) {
             logger.info("Retourne toutes les critiques pour l'oiseau: {}", raceOiseau);
             return (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(raceOiseau);
-        } else {
-            throw new CritiqueNotFoundException();
-        }
+
     }
 
     //MÉTHODE TESTÉE
     @PostMapping("/ajouterCritique")
     public Long ajouterCritique(@RequestBody Critique critique) {
         Long id = 0L;
-
         if (critique != null) {
             if (critiqueValidateur.validateCritiqueComplete(critique)) {
                 id = critiqueRepository.save(critique).getId();

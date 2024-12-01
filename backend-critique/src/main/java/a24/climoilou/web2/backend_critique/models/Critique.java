@@ -21,14 +21,10 @@ public class Critique  {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    //nom oiseau (Chantelcler, SIlkie, Rousse, Bain, Ocellated, etc)
     private String raceOiseau;
     private double temperament;
     private double beaute;
     private double utilisation;
-
-
 
     public Critique(String raceOiseau, double temperament, double beaute, double utilisation) {
         this.raceOiseau = raceOiseau;
