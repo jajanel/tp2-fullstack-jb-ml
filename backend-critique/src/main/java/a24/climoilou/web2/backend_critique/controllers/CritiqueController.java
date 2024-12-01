@@ -49,10 +49,14 @@ public class CritiqueController {
      * @return toutes les critiques pour cet oiseau
      * @throws InterruptedException si le serveur prend trop de temps à répondre
      */
-    @GetMapping("/critiques/{nomOiseau}")
-    public Collection<Critique> getCritiqueParNomOiseau(@PathVariable String nomOiseau) throws InterruptedException {
-        logger.info("Retournes toutes les critiques pour l'oiseau: {}", nomOiseau);
-        return critiqueRepository.findFirstByNomOiseau(nomOiseau);
+    @GetMapping("/critiques/{raceOiseau}")
+    public Collection<Critique> getCritiqueParNomOiseau(@PathVariable String raceOiseau) throws InterruptedException {
+        if (critiqueRepository.existsByRaceOiseau(raceOiseau)) {
+            logger.info("Retourne toutes les critiques pour l'oiseau: {}", raceOiseau);
+            return (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(raceOiseau);
+        } else {
+            throw new CritiqueNotFoundException();
+        }
     }
 
     @PostMapping("/ajouterCritique")
