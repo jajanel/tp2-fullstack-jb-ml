@@ -86,9 +86,9 @@ public class CritiqueController implements CommandLineRunner {
         return id;
     }
 
+    //MÉTHODE TESTÉE
     /**
      * Fonction qui permet de supprimer une critique de par son ID passée en paramètres
-     *
      * @param id l'id de la critique à supprimer
      */
     @DeleteMapping("/supprimerCritique/{id}")
@@ -103,7 +103,6 @@ public class CritiqueController implements CommandLineRunner {
     }
 
     //MÉTHODE TESTÉE
-
     /**
      * Fonction qui supprime toutes les critiques associées à un produit (oiseau) de par son nom.
      *
@@ -119,23 +118,33 @@ public class CritiqueController implements CommandLineRunner {
         throw new CritiqueNotFoundException();
     }
 
+    //Méthode testée
     public void supprimerToutesCritiques() {
         logger.info("Suppression de toutes les critiques");
         critiqueRepository.deleteAll();
     }
 
 
-//    /**
-//     * Retourne la note la plus haute de toute la liste de critique
-//     *
-//     * @param listeCritique la liste de critique données
-//     * @return la note la plus haute
-//     */
-//    @GetMapping("/getNotePlusHaute/")
-//    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
-//        Optional<Critique> notePlusHaute = listeCritique.stream().max(Comparator.comparingDouble(Critique::getNoteGlobale));
-//        return notePlusHaute.get().getNoteGlobale();
-//    }
+    /**
+     * Retourne la note la plus haute de toute la liste de critique
+     *
+     * @param listeCritique la liste de critique données
+     * @return la note la plus haute
+     */
+    @GetMapping("/getNotePlusHaute/")
+    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
+        return listeCritique.stream()
+                .mapToDouble(critique -> {
+                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
+                        return critiqueRepository.calculNoteGlobale(critique.getId());
+                    } else {
+                        throw new CritiqueNotFoundException();
+                    }
+                })
+                .max()
+                .orElseThrow(CritiqueNotFoundException::new);
+    }
+
     /**
      * Retourne la note la plus basse de toute la liste de critique
      *
