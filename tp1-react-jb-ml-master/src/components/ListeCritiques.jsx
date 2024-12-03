@@ -14,10 +14,6 @@ export default function ListeCritiques(props) {
     const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
     const [isLoading, setIsLoading] = useState(false);
 
-    //Création du format de la date pour affichage correct
-    function dateFormat(date) {
-        return date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    }
 
     /**
      * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
@@ -39,7 +35,6 @@ export default function ListeCritiques(props) {
 
         // si champs pas vides, alors ok
     }
-
 
     async function ajouterNouvelleCritique(critique) {
         try {
@@ -82,7 +77,6 @@ export default function ListeCritiques(props) {
                             race={props.race}
                             creerCritique={handleSubmitFormCreerCritique}
                         />
-                        <div className="  my-4">
                             <div className="row text-start m-4">
                                 <div className="col my-2">
                                     <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les critiques</h5>
