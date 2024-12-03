@@ -1,4 +1,4 @@
-// import {dataOiseau} from "../assets/oiseaux.js";
+ import {dataOiseau} from "../assets/oiseaux.js";
 // import GestionCatalogueCritique from './gestionCatalogueCritique.js';
 
 class GestionCatalogueOiseaux {
