@@ -6,6 +6,7 @@ import {ajouterCritique, fetchCritiqueParOiseau} from "../scripts/http-critiques
 
 export default function ListeCritiques(props) {
     const [dataCritiques,  setDataCritiques] = useState({
+        idOiseau: 0,
         raceOiseau: "",
         noteTemperament: 0.0,
         noteBeaute: 0.0,
@@ -14,7 +15,6 @@ export default function ListeCritiques(props) {
     const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
     const [isLoading, setIsLoading] = useState(false);
 
-    
     /**
      * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
      * @param event l'évènement de submit du formulaire
@@ -46,20 +46,22 @@ export default function ListeCritiques(props) {
             setErreurServeur({error: "error", message: e.message});
         }
     }
-    useEffect(() => {
-        async function fetchDataCritiqueParOiseau() {
-            setIsLoading(true);
-            try {
-                const donneesServeur = await fetchCritiqueParOiseau(props.race);
-                setDataCritiques(donneesServeur);
-            } catch (erreurServeur) {
-                setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
-            } finally {
-                setIsLoading(false);
-            }
+
+    async function fetchDataCritiqueParOiseau() {
+        setIsLoading(true);
+        try {
+            const donneesServeur = await fetchCritiqueParOiseau(props.race);
+            setDataCritiques(donneesServeur);
+        } catch (erreurServeur) {
+            setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
+        } finally {
+            setIsLoading(false);
         }
+    }
+
+    useEffect(() => {
         fetchDataCritiqueParOiseau();
-    }, [props.race]);
+    }, [setDataCritiques, fetchCritiqueParOiseau]);
 
     return (
         <>
@@ -85,6 +87,7 @@ export default function ListeCritiques(props) {
                                             beaute={critique.beaute}
                                             utilisation={critique.utilisation}
                                             stateDataCritique={[dataCritiques, setDataCritiques]}
+                                            rechargerCritiques={fetchDataCritiqueParOiseau}
                                         />
                                     ))}
                                 </div>
