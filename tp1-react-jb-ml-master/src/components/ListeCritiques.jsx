@@ -14,7 +14,7 @@ export default function ListeCritiques(props) {
     const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
     const [isLoading, setIsLoading] = useState(false);
 
-
+    
     /**
      * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
      * @param event l'évènement de submit du formulaire
@@ -46,25 +46,20 @@ export default function ListeCritiques(props) {
             setErreurServeur({error: "error", message: e.message});
         }
     }
-
-
-    //Pour fetch les critiques du serveur
     useEffect(() => {
-        async function fetchDataCritiqueParOiseau(){
+        async function fetchDataCritiqueParOiseau() {
             setIsLoading(true);
-            try{
-                const donneesServeur = await fetchCritiqueParOiseau()
-                setDataCritiques(donneesServeur)
-            } catch (erreurServeur){
-                setErreurServeur({error: "Erreur de fetching des produits du serveur", message: erreurServeur.message});
+            try {
+                const donneesServeur = await fetchCritiqueParOiseau(props.race);
+                setDataCritiques(donneesServeur);
+            } catch (erreurServeur) {
+                setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
             } finally {
                 setIsLoading(false);
             }
         }
         fetchDataCritiqueParOiseau();
-    }, [fetchCritiqueParOiseau, setDataCritiques]);
-
-
+    }, [props.race]);
 
     return (
         <>
@@ -77,13 +72,21 @@ export default function ListeCritiques(props) {
                             race={props.race}
                             creerCritique={handleSubmitFormCreerCritique}
                         />
+                        <div className="my-4">
                             <div className="row text-start m-4">
                                 <div className="col my-2">
                                     <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les critiques</h5>
-                                    <hr/>
-                                    {/*TODO: pour chaque critique dans le fetch all critique pour une race, map pour les afficher et passer en props pour le component*/}
-                                        <CritiquePrecedente/>
-
+                                    <hr />
+                                    {dataCritiques.map(critique => (
+                                        <CritiquePrecedente
+                                            key={critique.id}
+                                            idCritique={critique.id}
+                                            temperament={critique.temperament}
+                                            beaute={critique.beaute}
+                                            utilisation={critique.utilisation}
+                                            stateDataCritique={[dataCritiques, setDataCritiques]}
+                                        />
+                                    ))}
                                 </div>
                             </div>
                         </div>
