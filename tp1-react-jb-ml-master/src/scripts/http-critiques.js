@@ -28,7 +28,7 @@ export async function fetchCritiqueParOiseau(nomOiseau){
  * @returns {Promise<any>} la réponse json
  */
 export async function ajouterCritique(critique){
-    const response = await fetch("http://localhost:8080/ajouterCritique/" + critique,
+    const response = await fetch("http://localhost:8080/ajouterCritique",
         {
             method: 'POST',
             body: JSON.stringify(critique),
@@ -64,6 +64,14 @@ export async function supprimerToutesCritiqueParOiseau(nomOiseau){
         })
 
     if (!response.ok) throw new Error("Les critiques n'ont pas pu être supprimées")
+
+    return await response.json()
+}
+
+export async function calculerNoteGlobale(idCritique){
+    const response = await fetch("http://localhost:8080/getNoteGlobale/" +idCritique);
+
+    if (!response.ok) throw new Error("Erreur de calcul de la note globale. Pour: " + await response.json())
 
     return await response.json()
 }

@@ -17,9 +17,9 @@
 //         return this.critiques
 //     }
 //
-//     // newIdCritique(){
-//     //     return this.critiques[this.critiques.length - 1].idCritique + 1;
-//     // }
+//     newIdCritique(){
+//         return this.critiques[this.critiques.length - 1].idCritique + 1;
+//     }
 //
 //     /**
 //      * Retourne la moyenne des notes des critiques selon la catégorie passée en paramètre

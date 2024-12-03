@@ -19,7 +19,7 @@ import java.util.List;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = "")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class CritiqueController implements CommandLineRunner {
 
@@ -34,7 +34,7 @@ public class CritiqueController implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //TEST DES FONCTIONS AVEC QUELQUES CRITIQUES EN BASE DE DONNÉES:
-        supprimerToutesCritiques();
+        //supprimerToutesCritiques();
         ajouterCritique(new Critique("Chantelcler", 50, 50, 50));
         ajouterCritique(new Critique("Poule Rousse", 60, 60, 60));
     }
@@ -61,23 +61,19 @@ public class CritiqueController implements CommandLineRunner {
      */
     @GetMapping("/critiques/{raceOiseau}")
     public Collection<Critique> getCritiqueParNomOiseau(@PathVariable String raceOiseau) throws InterruptedException {
-        if (critiqueRepository.existsByRaceOiseau(raceOiseau)) {
             logger.info("Retourne toutes les critiques pour l'oiseau: {}", raceOiseau);
             return (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(raceOiseau);
-        } else {
-            throw new CritiqueNotFoundException();
-        }
+
     }
 
     //MÉTHODE TESTÉE
     @PostMapping("/ajouterCritique")
     public Long ajouterCritique(@RequestBody Critique critique) {
         Long id = 0L;
-
         if (critique != null) {
             if (critiqueValidateur.validateCritiqueComplete(critique)) {
                 id = critiqueRepository.save(critique).getId();
-                logger.info("Crée une nouvelle critique avec l'id: {}", id);
+                logger.info("Crée une nouvelle critique avec l'id: {} pour l'oiseau {}", id, critique.getRaceOiseau());
             } else {
                 logger.warn("La critique n'a pas pu être crée");
                 throw new CritiqueInvalideException();
@@ -86,9 +82,9 @@ public class CritiqueController implements CommandLineRunner {
         return id;
     }
 
+    //MÉTHODE TESTÉE
     /**
      * Fonction qui permet de supprimer une critique de par son ID passée en paramètres
-     *
      * @param id l'id de la critique à supprimer
      */
     @DeleteMapping("/supprimerCritique/{id}")
@@ -103,7 +99,6 @@ public class CritiqueController implements CommandLineRunner {
     }
 
     //MÉTHODE TESTÉE
-
     /**
      * Fonction qui supprime toutes les critiques associées à un produit (oiseau) de par son nom.
      *
@@ -119,36 +114,52 @@ public class CritiqueController implements CommandLineRunner {
         throw new CritiqueNotFoundException();
     }
 
+    //Méthode testée
     public void supprimerToutesCritiques() {
         logger.info("Suppression de toutes les critiques");
         critiqueRepository.deleteAll();
     }
 
 
-//    /**
-//     * Retourne la note la plus haute de toute la liste de critique
-//     *
-//     * @param listeCritique la liste de critique données
-//     * @return la note la plus haute
-//     */
-//    @GetMapping("/getNotePlusHaute/")
-//    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
-//        Optional<Critique> notePlusHaute = listeCritique.stream().max(Comparator.comparingDouble(Critique::getNoteGlobale));
-//        return notePlusHaute.get().getNoteGlobale();
-//    }
+    /**
+     * Retourne la note la plus haute de toute la liste de critique
+     *
+     * @param listeCritique la liste de critique données
+     * @return la note la plus haute
+     */
+    @GetMapping("/getNotePlusHaute/")
+    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
+        return listeCritique.stream()
+                .mapToDouble(critique -> {
+                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
+                        return critiqueRepository.calculNoteGlobale(critique.getId());
+                    } else {
+                        throw new CritiqueNotFoundException();
+                    }
+                })
+                .max()
+                .orElseThrow(CritiqueNotFoundException::new);
+    }
 
-//    /**
-//     * Retourne la note la plus basse de toute la liste de critique
-//     *
-//     * @param listeCritique la liste de critique données
-//     * @return la note la plus basse
-//     */
-//    @GetMapping("/getNotePlusBasse/")
-//    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
-//        Optional<Critique> minNumber = listeCritique.stream().min(Comparator.comparingDouble(Critique::getNoteGlobale));
-//
-//        return minNumber.get().getNoteGlobale();
-//    }
+    /**
+     * Retourne la note la plus basse de toute la liste de critique
+     *
+     * @param listeCritique la liste de critique données
+     * @return la note la plus basse
+     */
+    @GetMapping("/getNotePlusBasse/")
+    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
+        return listeCritique.stream()
+                .mapToDouble(critique -> {
+                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
+                        return critiqueRepository.calculNoteGlobale(critique.getId());
+                    } else {
+                        throw new CritiqueNotFoundException();
+                    }
+                })
+                .min()
+                .orElseThrow(CritiqueNotFoundException::new);
+    }
 
 
     //MÉTHODE TESTÉE
@@ -158,7 +169,7 @@ public class CritiqueController implements CommandLineRunner {
      * @param idCritique l'id de la critique pour laquelle on souhaite obtenir la note moyenne
      * @return la note moyenne de la critique
      */
-    @GetMapping("/getNoteMoyenne/{idCritique}")
+    @GetMapping("/getNoteGlobale/{idCritique}")
     public double getNoteGlobale(@PathVariable Long idCritique) {
         if (critiqueRepository.findById(idCritique).isPresent()) {
             logger.info("Retourne la note moyenne de la critique {}", idCritique);
@@ -177,6 +188,8 @@ public class CritiqueController implements CommandLineRunner {
         return new ErreurCritique(ex.getMessage());
     }
 
+
+    //Exception fonctionnelle
     @ExceptionHandler(CritiqueInvalideException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErreurCritique handleCritiqueNotFoundException(CritiqueNotFoundException ex) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getNotes } from "../classes/gestionCatalogueCritique.js";
+//import { getNotes } from "../classes/gestionCatalogueCritique.js";
 
 export default function CatalogueStatistiques(props) {
     //valeur de base des moyennes
