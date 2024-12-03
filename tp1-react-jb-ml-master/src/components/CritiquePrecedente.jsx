@@ -1,17 +1,18 @@
-
 import {calculerNoteGlobale, supprimerCritique} from "../scripts/http-critiques.js";
 import {useEffect, useState} from "react";
 export default function CritiquePrecedente(props) {
 
-    /**
-     * Fonction pour supprimer une critique de la liste des critiques, affiche message d'alerte
-    const handleSupprimerCritique = (idCritique) => {
-        supprimerCritique(idCritique);
-        props.setDataCritiques(prevCritiques => prevCritiques.filter(critique => critique.idCritique !== idCritique));
-        alert("Critique #" + idCritique + " supprimée");
     const [noteGlobale, setNoteGlobale] = useState(0);
 
 
+    async function handleSupprimerCritique(idCritique) {
+        try {
+            await supprimerCritique(idCritique);
+            props.stateDataCritique[1](old => old.filter(critique => critique.id !== idCritique));
+            //Reste à réellement la faire dispraitre visuellement.
+        } catch (e) {
+            console.log("La critique avec l'id " + idCritique + " n'a pas pu être supprimée");
+        }
     }
 
     //todo arrondir la note globale
