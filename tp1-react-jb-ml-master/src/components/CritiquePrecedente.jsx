@@ -1,4 +1,6 @@
 
+import {calculerNoteGlobale, supprimerCritique} from "../scripts/http-critiques.js";
+import {useEffect, useState} from "react";
 export default function CritiquePrecedente(props) {
 
     /**
@@ -7,19 +9,34 @@ export default function CritiquePrecedente(props) {
         supprimerCritique(idCritique);
         props.setDataCritiques(prevCritiques => prevCritiques.filter(critique => critique.idCritique !== idCritique));
         alert("Critique #" + idCritique + " supprimée");
+    const [noteGlobale, setNoteGlobale] = useState(0);
+
+
     }
-     */
-    //Ici appeller la méthode de suppression de la critique en BD et fetch les autres criutique pour un oiseau
+
+    //todo arrondir la note globale
+    useEffect(() => {
+        async function fetchNoteGlobale() {
+            try {
+                const note = await calculerNoteGlobale(props.idCritique);
+                setNoteGlobale(note);
+            } catch (e) {
+                console.log("La note globale de la critique avec l'id " + props.idCritique + " n'a pas pu être calculée");
+            }
+        }
+        fetchNoteGlobale();
+    }, [props.idCritique]);
+
 
     return (
-        <div className=" rounded-3 p-2 my-5">
+        <div className="rounded-3 p-2 my-5">
             <div className="pb-4">
                 <h4 className="form-label">ID de la critique</h4>
                 <input type="text" className="form-control form-select-lg" id="note" disabled value={props.idCritique} />
             </div>
             <div className="pb-4">
                 <h4 className="form-label">La note globale calculée:</h4>
-                <input type="number" className="form-control form-select-lg" id="note" disabled value={props.note} />
+                <input type="number" className="form-control form-select-lg" id="note" disabled value={noteGlobale} />
             </div>
             <div className="pb-4">
                 <h4 className="form-label">Tempérament:</h4>
