@@ -68,5 +68,13 @@ export async function supprimerToutesCritiqueParOiseau(nomOiseau){
     return await response.json()
 }
 
+export async function calculerNoteGlobale(idCritique){
+    const response = await fetch("http://localhost:8080/getNoteGlobale/" +idCritique);
+
+    if (!response.ok) throw new Error("Erreur de calcul de la note globale. Pour: " + await response.json())
+
+    return await response.json()
+}
+
 
 
