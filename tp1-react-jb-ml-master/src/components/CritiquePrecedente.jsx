@@ -1,17 +1,16 @@
-import {calculerNoteGlobale, supprimerCritique} from "../scripts/http-critiques.js";
-import {useEffect, useState} from "react";
-export default function CritiquePrecedente(props) {
+import { calculerNoteGlobale, supprimerCritique } from "../scripts/http-critiques.js";
+import { useEffect, useState } from "react";
 
+export default function CritiquePrecedente(props) {
     const [noteGlobale, setNoteGlobale] = useState(0);
 
 
-    async function handleSupprimerCritique(idCritique) {
+    async function handleSupprimerCritique() {
         try {
-            await supprimerCritique(idCritique);
-            props.stateDataCritique[1](old => old.filter(critique => critique.id !== idCritique));
-            //Reste à réellement la faire dispraitre visuellement.
+            await supprimerCritique(props.idCritique).then(() => {props.rechargerCritiques()});
+
         } catch (e) {
-            console.log("La critique avec l'id " + idCritique + " n'a pas pu être supprimée");
+            console.log("La critique avec l'id " + props.idCritique + " n'a pas pu être supprimée. Erreur: "+ e.message);
         }
     }
 
