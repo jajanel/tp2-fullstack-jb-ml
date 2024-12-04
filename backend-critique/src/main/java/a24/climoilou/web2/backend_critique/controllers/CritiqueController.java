@@ -36,8 +36,8 @@ public class CritiqueController implements CommandLineRunner {
     public void run(String... args) throws Exception {
         //TEST DES FONCTIONS AVEC QUELQUES CRITIQUES EN BASE DE DONNÉES:
         supprimerToutesCritiques();
-        ajouterCritique(new Critique("chantecler", 50, 50, 50));
-        ajouterCritique(new Critique("Poule Rousse", 60, 60, 60));
+        ajouterCritique(new Critique("chantecler", "Poule",50, 50, 50));
+        ajouterCritique(new Critique("rousse","Poule", 60, 60, 60));
     }
 
 

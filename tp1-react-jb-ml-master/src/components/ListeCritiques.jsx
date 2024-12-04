@@ -12,6 +12,7 @@ export default function ListeCritiques(props) {
 
         const nouvelleCritique = {
             raceOiseau: props.race,
+            categorieOiseau: props.categorie,
             temperament: formData.get("temperament"),
             beaute: formData.get("beaute"),
             utilisation: formData.get("utilisation"),
