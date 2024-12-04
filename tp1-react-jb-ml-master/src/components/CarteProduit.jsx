@@ -1,21 +1,16 @@
-import { useState, useEffect } from "react";
-import DescriptionOiseau from "../Oiseaux/DescriptionOiseau.jsx";
-import ConfirmationSupression from "../Oiseaux/ConfirmationSupression.jsx";
-import ListeCritiques from "../Critiques/ListeCritiques.jsx";
-import { fetchCritiqueParOiseau, supprimerToutesCritiqueParOiseau } from "../../scripts/http-critiques.js";
+import { useState} from "react";
+import DescriptionOiseau from "./DescriptionOiseau.jsx";
+import ConfirmationSupression from "./ConfirmationSupression.jsx";
+import ListeCritiques from "./ListeCritiques.jsx";
+
 
 export default function CarteProduit(props) {
-    //TODO: state à vérifier si on peut pas les combiner ?
     const [estOuvertDescription, setEstOuvertDescription] = useState(false);
     const [estOuvertCritique, setEstOuvertCritique] = useState(false);
     const [estOuvertConfirmation, setEstOuvertConfirmation] = useState(false);
     const [oiseauASupprimer, setOiseauASupprimer] = useState(null);
 
-
-    const [dataCritiques, setDataCritiques] = useState([]);
-    const [erreurServeur, setErreurServeur] = useState({ error: undefined, message: "Aucune erreur, pour l'instant.." });
-    const [isLoading, setIsLoading] = useState(false);
-
+    //Les toggles pour ouvrir les "modals"
     const toggleModalDescription = () => {
         setEstOuvertDescription(!estOuvertDescription);
 
@@ -37,41 +32,13 @@ export default function CarteProduit(props) {
         if (oiseauASupprimer !== null) {
             props.tuerOiseau(oiseauASupprimer);
             setOiseauASupprimer(null);
-            //Appel de la suppression de toutes les critiques pour cet oiseasu
-            handleSupprimerToutesCritiques();
             toggleModalConfirmation();
         }
     };
 
-    /**
-     * Pour appeller la fonction de suppression de toutes les critiques lorsqu'un oiseau est supprimé
-     */
-    async function handleSupprimerToutesCritiques() {
-        try {
-            await supprimerToutesCritiqueParOiseau(props.race).then(() => { fetchDataCritiqueParOiseau() });
-        } catch (e) {
-            console.log("La critique avec l'id " + props.idCritique + " n'a pas pu être supprimée. Erreur: " + e.message);
-        }
-    }
 
-    async function fetchDataCritiqueParOiseau() {
-        setIsLoading(true);
-        try {
-            const donneesServeur = await fetchCritiqueParOiseau(props.race);
-            setDataCritiques(donneesServeur);
-        } catch (erreurServeur) {
-            setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
-
-    useEffect(() => {
-        if (estOuvertCritique) {
-            fetchDataCritiqueParOiseau();
-        }
-    }, [estOuvertCritique]);
+    // //Filtrer les critiques pour l'oiseau spécifique
+    // const filteredCritiques = props.dataCritiques.filter(critique => critique.idOiseau === props.id);
 
     return (
         <>
@@ -102,11 +69,6 @@ export default function CarteProduit(props) {
                         race={props.race}
                         estOuvertCritique={estOuvertCritique}
                         toggleModalCritique={toggleModalCritique}
-                        dataCritiques={dataCritiques}
-                        setDataCritiques={setDataCritiques}
-                        isLoading={isLoading}
-                        erreurServeur={erreurServeur}
-                        fetchDataCritiqueParOiseau={fetchDataCritiqueParOiseau}
                     />
                 </div>
                 <div className="card-footer">

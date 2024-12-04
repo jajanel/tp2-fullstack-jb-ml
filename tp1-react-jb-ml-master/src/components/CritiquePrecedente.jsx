@@ -1,18 +1,20 @@
-import { calculerNoteGlobale, supprimerCritique } from "../../scripts/http-critiques.js";
+import { calculerNoteGlobale, supprimerCritique } from "../scripts/http-critiques.js";
 import { useEffect, useState } from "react";
 
 export default function CritiquePrecedente(props) {
     const [noteGlobale, setNoteGlobale] = useState(0);
 
+
     async function handleSupprimerCritique() {
         try {
-            await supprimerCritique(props.idCritique);
-            props.rechargerCritiques();
+            await supprimerCritique(props.idCritique).then(() => {props.rechargerCritiques()});
+
         } catch (e) {
             console.log("La critique avec l'id " + props.idCritique + " n'a pas pu être supprimée. Erreur: "+ e.message);
         }
     }
 
+    //todo arrondir la note globale
     useEffect(() => {
         async function fetchNoteGlobale() {
             try {
@@ -24,6 +26,7 @@ export default function CritiquePrecedente(props) {
         }
         fetchNoteGlobale();
     }, [props.idCritique]);
+
 
     return (
         <div className="rounded-3 p-2 my-5">

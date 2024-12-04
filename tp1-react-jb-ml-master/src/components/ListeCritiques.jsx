@@ -1,10 +1,19 @@
 import MaCritique from "./MaCritique.jsx";
 import CritiquePrecedente from "./CritiquePrecedente.jsx";
-import { useState } from "react";
-import { ajouterCritique } from "../../scripts/http-critiques.js";
+import {useContext, useEffect, useState} from "react";
+import {DataCritiqueContext} from "./contexts/DataCritiqueContext.jsx";
+import {ajouterCritique, fetchCritiqueParOiseau} from "../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
-    const [erreurServeur, setErreurServeur] = useState({ error: undefined, message: "Aucune erreur, pour l'instant.." });
+    const [dataCritiques,  setDataCritiques] = useState({
+        idOiseau: 0,
+        raceOiseau: "",
+        noteTemperament: 0.0,
+        noteBeaute: 0.0,
+        noteUtilisation: 0.0,
+    });
+    const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
+    const [isLoading, setIsLoading] = useState(false);
 
     /**
      * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
@@ -30,13 +39,29 @@ export default function ListeCritiques(props) {
     async function ajouterNouvelleCritique(critique) {
         try {
             const nouvelID = await ajouterCritique(critique);
-            critique.id = nouvelID;
-            props.setDataCritiques(old => [critique, ...old]);
+            critique.id = nouvelID
+            setDataCritiques(old => [critique, ...old])
         } catch (e) {
             console.log(e);
-            setErreurServeur({ error: "error", message: e.message });
+            setErreurServeur({error: "error", message: e.message});
         }
     }
+
+    async function fetchDataCritiqueParOiseau() {
+        setIsLoading(true);
+        try {
+            const donneesServeur = await fetchCritiqueParOiseau(props.race);
+            setDataCritiques(donneesServeur);
+        } catch (erreurServeur) {
+            setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchDataCritiqueParOiseau();
+    }, [setDataCritiques, fetchCritiqueParOiseau]);
 
     return (
         <>
@@ -54,15 +79,15 @@ export default function ListeCritiques(props) {
                                 <div className="col my-2">
                                     <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les critiques</h5>
                                     <hr />
-                                    {props.dataCritiques.map(critique => (
+                                    {dataCritiques.map(critique => (
                                         <CritiquePrecedente
                                             key={critique.id}
                                             idCritique={critique.id}
                                             temperament={critique.temperament}
                                             beaute={critique.beaute}
                                             utilisation={critique.utilisation}
-                                            stateDataCritique={[props.dataCritiques, props.setDataCritiques]}
-                                            rechargerCritiques={props.fetchDataCritiqueParOiseau}
+                                            stateDataCritique={[dataCritiques, setDataCritiques]}
+                                            rechargerCritiques={fetchDataCritiqueParOiseau}
                                         />
                                     ))}
                                 </div>
