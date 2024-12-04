@@ -34,22 +34,22 @@ function App() {
     useEffect(() => {
         localStorage.setItem("dataOiseau", JSON.stringify(dataOiseau));
     }, [dataOiseau]);
-    // useEffect(() => {
-    //     localStorage.setItem("dataCritiques", JSON.stringify(dataCritiques));
-    // }, [dataCritiques]);
+
 
     // Changer la valeur de la catégorie montrée dans le catalogue en utilisant le setter setCategorieSelectionne
     const handleChangementCategorie = (categorieOiseau) => {
         setCategorieSelectionne(categorieOiseau);
     };
+
     // Filtrer les oiseaux selon la catégorie sélectionnée par l'utilisateur (valeur par défaut est tous les oiseaux)
     const oiseauxFiltre = categorieSelectionne === "tous" ? dataOiseau : dataOiseau.filter(oiseau => oiseau.categorie === categorieSelectionne);
+
 
     // Fonction pour supprimer un oiseau du catalogue et mettre à jour les données
     const handleTuerOiseau = (idOiseau) => {
         supprimerOiseau(idOiseau);
         filtrerEtMettreAJourOiseaux(idOiseau, setDataOiseau);
-        //filtrerEtMettreAJourCritiques(idOiseau, setDataCritiques);
+
     };
 
     // Fermer le modal statistiques (utilisé pour fermer la section statiostique lorsqu'on change la catégorie utilisée) pour revenir au mode normal.
