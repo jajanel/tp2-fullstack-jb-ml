@@ -14,7 +14,7 @@ export default function MaCritique(props) {
                             <div className="d-flex align-items-center">
                                 <label className="me-2">0</label>
                                 <input type="range" className="form-range form-select-lg" name="temperament" min={0}
-                                       max={100} step="1"/>
+                                       max={100} step="10"/>
                                 <label className="ms-2">100</label>
                             </div>
                         </div>
@@ -23,7 +23,7 @@ export default function MaCritique(props) {
                             <div className="d-flex align-items-center">
                                 <label className="me-2">0</label>
                                 <input type="range" className="form-range form-select-lg" name="beaute" min={0}
-                                       max={100} step="1"/>
+                                       max={100} step="10"/>
                                 <label className="ms-2">100</label>
                             </div>
                         </div>
@@ -32,7 +32,7 @@ export default function MaCritique(props) {
                             <div className="d-flex align-items-center">
                                 <label className="me-2">0</label>
                                 <input type="range" className="form-range form-select-lg" name="utilisation" min={0}
-                                       max={100} step="1"/>
+                                       max={100} step="10"/>
                                 <label className="ms-2">100</label>
                             </div>
                         </div>
