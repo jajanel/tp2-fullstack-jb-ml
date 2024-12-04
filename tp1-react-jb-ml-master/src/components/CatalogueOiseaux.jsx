@@ -31,11 +31,9 @@ export default function CatalogueOiseaux(props) {
                 />
             </div>
             <div className="row px-5">
-                {/*TODO: PLUS BESOIN DE LA BOUCLE ED DESSOUS, À LA PLACE REFAIRE UN APPEL AU SERVEUR ICI POUR AVOIR LES NOTES DES CRITIQUES ET TRIER.*/}
-                {/*Boucle pour afficher les cartes produits filtrées soit par leur notes moyenne(si stats est ouvert) ou normalement (oiseauFiltre)*/}
-                {(props.oiseauxTriBool[0]
-                    ? props.oiseauxFiltre.toSorted((a, b) => getNoteOiseauSpecifique(b.idOiseau) - getNoteOiseauSpecifique(a.idOiseau))
-                    : props.oiseauxFiltre).map((oiseau, index) => (
+
+                {/*TODO Boucle pour afficher les cartes produits filtrées soit par leur notes moyenne(si stats est ouvert) ou normalement (oiseauFiltre)*/}
+                {(props.oiseauxFiltre).map((oiseau, index) => (
                     <div className="col-xl-4 col-xxl-3 col-md-6 col-lg-6 align-content-center" key={`${oiseau.idOiseau}-${index}`}>
 
                         <CarteProduit
