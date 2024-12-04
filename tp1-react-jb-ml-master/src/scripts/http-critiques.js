@@ -58,7 +58,6 @@ export async function supprimerCritique(idCritique){
  * @param nomOiseau la race de l'oiseau pour lequel on doit supprimer toutes les critiques
  */
 export async function supprimerToutesCritiqueParOiseau(nomOiseau){
-    console.log(nomOiseau)
     const response = await fetch("http://localhost:8080/supprimerToutesCritiquesParOiseau/" + nomOiseau,
         {
             method: 'DELETE',
@@ -71,10 +70,19 @@ export async function supprimerToutesCritiqueParOiseau(nomOiseau){
 export async function calculerNoteGlobale(idCritique){
     const response = await fetch("http://localhost:8080/getNoteGlobale/" +idCritique);
 
-    if (!response.ok) throw new Error("Erreur de calcul de la note globale. Pour: " + await response.json())
+    if (!response.ok) throw new Error("Erreur de calcul de la note globale pour " + idCritique)
 
     return await response.json()
 }
 
 
+
+
+
+export async function getNotePlusHaute(listeCritique){
+    const response = await fetch("http://localhost:8080/getNotePlusHaute/");
+    if (!response.ok) throw new Error("Erreur de calcul de la note la plus haute pour la liste de critiques")
+    return await response.json()
+
+}
 
