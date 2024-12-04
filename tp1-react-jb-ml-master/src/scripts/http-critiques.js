@@ -79,6 +79,15 @@ export async function calculerNoteGlobale(idCritique){
 
 
 
+
+export async function getNotePlusBasse(listeCritique){
+    const response = await fetch("http://localhost:8080/getNotePlusBasse/");
+    if (!response.ok) throw new Error("Erreur de calcul de la note la plus basse pour la liste de critiques")
+    return await response.json()
+
+}
+
+
 export async function getNotePlusHaute(listeCritique){
     const response = await fetch("http://localhost:8080/getNotePlusHaute/");
     if (!response.ok) throw new Error("Erreur de calcul de la note la plus haute pour la liste de critiques")
