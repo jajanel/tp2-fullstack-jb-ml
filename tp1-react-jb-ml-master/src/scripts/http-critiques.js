@@ -50,6 +50,7 @@ export async function supprimerCritique(idCritique){
             method: 'DELETE'
         })
     if (!response.ok) throw new Error("La critique n'a pas pu être supprimée")
+
 }
 
 /**
@@ -57,12 +58,14 @@ export async function supprimerCritique(idCritique){
  * @param nomOiseau la race de l'oiseau pour lequel on doit supprimer toutes les critiques
  */
 export async function supprimerToutesCritiqueParOiseau(nomOiseau){
+    console.log(nomOiseau)
     const response = await fetch("http://localhost:8080/supprimerToutesCritiquesParOiseau/" + nomOiseau,
         {
             method: 'DELETE',
         })
 
     if (!response.ok) throw new Error("Les critiques n'ont pas pu être supprimées")
+
 }
 
 export async function calculerNoteGlobale(idCritique){

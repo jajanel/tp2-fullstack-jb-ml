@@ -40,18 +40,11 @@ export default function CarteProduit(props) {
         if (oiseauASupprimer !== null) {
             props.tuerOiseau(oiseauASupprimer);
             setOiseauASupprimer(null);
-            handleSupprimerToutesCritiques();
             toggleModalConfirmation();
         }
     };
 
-    async function handleSupprimerToutesCritiques() {
-        try {
-            await supprimerToutesCritiqueParOiseau(props.race).then(() => { fetchDataCritiqueParOiseau() });
-        } catch (e) {
-            console.log("La critique avec l'id " + props.idCritique + " n'a pas pu être supprimée. Erreur: " + e.message);
-        }
-    }
+
 
     async function fetchDataCritiqueParOiseau() {
         setIsLoading(true);

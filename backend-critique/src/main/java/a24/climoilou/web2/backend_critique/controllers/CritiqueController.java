@@ -34,7 +34,7 @@ public class CritiqueController implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //TEST DES FONCTIONS AVEC QUELQUES CRITIQUES EN BASE DE DONNÉES:
-        //supprimerToutesCritiques();
+        supprimerToutesCritiques();
         ajouterCritique(new Critique("chantecler", 50, 50, 50));
         ajouterCritique(new Critique("Poule Rousse", 60, 60, 60));
     }
@@ -106,12 +106,14 @@ public class CritiqueController implements CommandLineRunner {
      */
     @DeleteMapping("/supprimerToutesCritiquesParOiseau/{raceOiseau}")
     public void supprimerToutesCritiquesParOiseau(@PathVariable String raceOiseau) {
-        if (critiqueRepository.findAllByRaceOiseau(raceOiseau) != null) {
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(raceOiseau);
+        if (critiques != null && !critiques.isEmpty()) {
             logger.info("Suppression de toutes les critiques pour {}", raceOiseau);
-            critiqueRepository.deleteAll(critiqueRepository.findAllByRaceOiseau(raceOiseau));
+            critiqueRepository.deleteAll(critiques);
+        } else {
+            logger.warn("Il n'y a  plus aucune critique à supprimer pour {}", raceOiseau);
+
         }
-        logger.warn("Il n'y a aucune critique à supprimer pour {}", raceOiseau);
-        throw new CritiqueNotFoundException();
     }
 
     //Méthode testée
