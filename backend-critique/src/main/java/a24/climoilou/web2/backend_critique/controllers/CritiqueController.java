@@ -29,6 +29,7 @@ public class CritiqueController implements CommandLineRunner {
     private CritiqueRepository critiqueRepository;
 
 
+
     private Logger logger = LoggerFactory.getLogger(CritiqueController.class);
 
     @Override
@@ -174,7 +175,7 @@ public class CritiqueController implements CommandLineRunner {
     @GetMapping("/getNoteGlobale/{idCritique}")
     public double getNoteGlobale(@PathVariable Long idCritique) {
         if (critiqueRepository.findById(idCritique).isPresent()) {
-            double noteGlobale = critiqueRepository.calculNoteGlobale(idCritique);
+            double noteGlobale = Math.round(critiqueRepository.calculNoteGlobale(idCritique) * 100)/100;
             logger.info("La note moyenne de la critique {} est de: {}", idCritique, noteGlobale);
             return noteGlobale;
         } else {
