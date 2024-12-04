@@ -52,7 +52,7 @@ export default function CarteProduit(props) {
             const donneesServeur = await fetchCritiqueParOiseau(props.race);
             setDataCritiques(donneesServeur);
         } catch (erreurServeur) {
-            setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
+            setErreurServeur({ error: "error", message: erreurServeur.message });
         } finally {
             setIsLoading(false);
         }
