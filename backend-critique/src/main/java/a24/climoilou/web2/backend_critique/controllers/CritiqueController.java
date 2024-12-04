@@ -174,9 +174,9 @@ public class CritiqueController implements CommandLineRunner {
     @GetMapping("/getNoteGlobale/{idCritique}")
     public double getNoteGlobale(@PathVariable Long idCritique) {
         if (critiqueRepository.findById(idCritique).isPresent()) {
-            logger.info("Retourne la note moyenne de la critique {}", idCritique);
-            logger.info("La note moyenne est de: {}", critiqueRepository.calculNoteGlobale(idCritique));
-            return critiqueRepository.calculNoteGlobale(idCritique);
+            double noteGlobale = critiqueRepository.calculNoteGlobale(idCritique);
+            logger.info("La note moyenne de la critique {} est de: {}", idCritique, noteGlobale);
+            return noteGlobale;
         } else {
             logger.warn("La critique demandée {} n'existe pas", idCritique);
             throw new CritiqueNotFoundException();

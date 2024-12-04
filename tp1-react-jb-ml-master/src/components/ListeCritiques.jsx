@@ -1,7 +1,7 @@
 import MaCritique from "./MaCritique.jsx";
 import CritiquePrecedente from "./CritiquePrecedente.jsx";
-import { useState } from "react";
-import { ajouterCritique } from "../scripts/http-critiques.js";
+import {useState} from "react";
+import {ajouterCritique} from "../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
     const [erreurServeur, setErreurServeur] = useState({ error: undefined, message: "Aucune erreur, pour l'instant.." });
@@ -21,8 +21,7 @@ export default function ListeCritiques(props) {
 
     async function ajouterNouvelleCritique(critique) {
         try {
-            const nouvelID = await ajouterCritique(critique);
-            critique.id = nouvelID;
+            critique.id = await ajouterCritique(critique);
             props.setDataCritiques(old => [critique, ...old]);
         } catch (e) {
             console.log(e);
@@ -55,6 +54,9 @@ export default function ListeCritiques(props) {
                                             utilisation={critique.utilisation}
                                             stateDataCritique={[props.dataCritiques, props.setDataCritiques]}
                                             rechargerCritiques={props.fetchDataCritiqueParOiseau}
+                                            isLoading={props.isLoading}
+                                            setIsLoading={props.setIsLoading}
+
                                         />
                                     ))}
                                 </div>

@@ -90,6 +90,7 @@ export default function CarteProduit(props) {
                         dataCritiques={dataCritiques}
                         setDataCritiques={setDataCritiques}
                         isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                         erreurServeur={erreurServeur}
                         fetchDataCritiqueParOiseau={fetchDataCritiqueParOiseau}
                     />
