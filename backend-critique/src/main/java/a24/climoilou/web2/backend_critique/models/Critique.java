@@ -1,6 +1,5 @@
 package a24.climoilou.web2.backend_critique.models;
 
-import a24.climoilou.web2.backend_critique.repositories.CritiqueRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,4 +34,8 @@ public class Critique  {
         this.utilisation = utilisation;
     }
 
+
+    public double calculNoteMoyenne(){
+        return (temperament + beaute + utilisation)/3;
+    }
 }

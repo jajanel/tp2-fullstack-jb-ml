@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -183,6 +180,24 @@ public class CritiqueController implements CommandLineRunner {
             throw new CritiqueNotFoundException();
         }
     }
+
+    @GetMapping("/getMoyenneParCategorie/{categorieOiseau}")
+    public double getMoyenneParCategorie(@PathVariable String categorieOiseau) {
+        double moyenneCategorie = 0;
+        if (critiqueRepository.existsByCategorieOiseau(categorieOiseau)) {
+            Collection<Critique> toutesCritiquesDeCategorie = (Collection<Critique>) critiqueRepository.findAllByCategorieOiseau(categorieOiseau);
+            for (Critique critique : toutesCritiquesDeCategorie ) {
+                logger.info("Calcul des moyennes pour les oiseaux {}", categorieOiseau);
+                moyenneCategorie += critique.calculNoteMoyenne();
+                moyenneCategorie /= toutesCritiquesDeCategorie.size();
+            }
+        } else {
+            logger.warn("Aucun oiseau dans la catégorie: {}", categorieOiseau);
+            throw new CritiqueNotFoundException();
+        }
+        return moyenneCategorie;
+    }
+
 
 
     @ExceptionHandler(CritiqueInvalideException.class)
