@@ -13,7 +13,8 @@ export default function MaCritique(props) {
                             <h4 className="form-label">Tempérament:</h4>
                             <div className="d-flex align-items-center">
                                 <label className="me-2">0</label>
-                                <input type="range" className="form-range form-select-lg" name="temperament" min={0} max={100} step="1"/>
+                                <input type="range" className="form-range form-select-lg" name="temperament" min={0}
+                                       max={100} step="1"/>
                                 <label className="ms-2">100</label>
                             </div>
                         </div>
@@ -21,7 +22,8 @@ export default function MaCritique(props) {
                             <h4 className="form-label">Beauté:</h4>
                             <div className="d-flex align-items-center">
                                 <label className="me-2">0</label>
-                                <input type="range" className="form-range form-select-lg" name="beaute" min={0} max={100} step="1"/>
+                                <input type="range" className="form-range form-select-lg" name="beaute" min={0}
+                                       max={100} step="1"/>
                                 <label className="ms-2">100</label>
                             </div>
                         </div>
@@ -29,7 +31,8 @@ export default function MaCritique(props) {
                             <h4 className="form-label">Utilisation:</h4>
                             <div className="d-flex align-items-center">
                                 <label className="me-2">0</label>
-                                <input type="range" className="form-range form-select-lg" name="utilisation" min={0} max={100} step="1"/>
+                                <input type="range" className="form-range form-select-lg" name="utilisation" min={0}
+                                       max={100} step="1"/>
                                 <label className="ms-2">100</label>
                             </div>
                         </div>
@@ -39,10 +42,25 @@ export default function MaCritique(props) {
                     </div>
                 </div>
                 <hr/>
-                <div className="btn-wrapper text-center d-flex justify-content-end ">
-                    <button type="submit" className={"btn btn-success  btn-lg m-3"}>Ajouter</button>
-                </div>
+                {
+                    props.chargementAjouter ?
+                        <div className="btn-wrapper text-center d-flex justify-content-end">
+                            <button className="btn btn-warning" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" role="status"
+                                      aria-hidden="true"></span>
+                                Chargement
+                            </button>
+                        </div> :
+                        !props.erreurServeur.error ?
+                            <div className="btn-wrapper text-center d-flex justify-content-end ">
+                                <button type="submit" className={"btn btn-success  btn-lg m-3"}>Ajouter</button>
+                            </div>
+                            :
+                            <div className="btn-wrapper text-center d-flex justify-content-end ">
+                                <button type="submit" className={"btn btn-danger disabled btn-lg m-3"}>Ajouter</button>
+                            </div>
 
+                }
             </form>
         </div>
     </>)

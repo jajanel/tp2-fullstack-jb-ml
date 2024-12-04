@@ -4,8 +4,8 @@ import {useState} from "react";
 import {ajouterCritique} from "../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
-    const [erreurServeur, setErreurServeur] = useState({ error: undefined, message: "Aucune erreur, pour l'instant.." });
-
+    const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
+    const [chargementAjouter, setChargementAjouter] = useState(false);
     function handleSubmitFormCreerCritique(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -20,12 +20,15 @@ export default function ListeCritiques(props) {
     }
 
     async function ajouterNouvelleCritique(critique) {
+        setChargementAjouter(true);
         try {
             critique.id = await ajouterCritique(critique);
             props.setDataCritiques(old => [critique, ...old]);
         } catch (e) {
             console.log(e);
-            setErreurServeur({ error: "error", message: e.message });
+            setErreurServeur({error: "error", message: e.message});
+        } finally {
+            setChargementAjouter(false);
         }
     }
 
