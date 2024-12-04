@@ -1,24 +1,11 @@
 import MaCritique from "./MaCritique.jsx";
 import CritiquePrecedente from "./CritiquePrecedente.jsx";
-import {useContext, useEffect, useState} from "react";
-import {DataCritiqueContext} from "./contexts/DataCritiqueContext.jsx";
-import {ajouterCritique, fetchCritiqueParOiseau} from "../scripts/http-critiques.js";
+import { useState } from "react";
+import { ajouterCritique } from "../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
-    const [dataCritiques,  setDataCritiques] = useState({
-        raceOiseau: "",
-        noteTemperament: 0.0,
-        noteBeaute: 0.0,
-        noteUtilisation: 0.0,
-    });
-    const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
-    const [isLoading, setIsLoading] = useState(false);
+    const [erreurServeur, setErreurServeur] = useState({ error: undefined, message: "Aucune erreur, pour l'instant.." });
 
-    
-    /**
-     * Fonction pour appeller les fonctions de gestionCatalogueCritique pour créer une critique
-     * @param event l'évènement de submit du formulaire
-     * */
     function handleSubmitFormCreerCritique(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -28,38 +15,20 @@ export default function ListeCritiques(props) {
             temperament: formData.get("temperament"),
             beaute: formData.get("beaute"),
             utilisation: formData.get("utilisation"),
-        }
+        };
         ajouterNouvelleCritique(nouvelleCritique);
-
-        //TODO: VÉRIFIER CHAMPS:
-
-        // si champs pas vides, alors ok
     }
 
     async function ajouterNouvelleCritique(critique) {
         try {
             const nouvelID = await ajouterCritique(critique);
-            critique.id = nouvelID
-            setDataCritiques(old => [critique, ...old])
+            critique.id = nouvelID;
+            props.setDataCritiques(old => [critique, ...old]);
         } catch (e) {
             console.log(e);
-            setErreurServeur({error: "error", message: e.message});
+            setErreurServeur({ error: "error", message: e.message });
         }
     }
-    useEffect(() => {
-        async function fetchDataCritiqueParOiseau() {
-            setIsLoading(true);
-            try {
-                const donneesServeur = await fetchCritiqueParOiseau(props.race);
-                setDataCritiques(donneesServeur);
-            } catch (erreurServeur) {
-                setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        fetchDataCritiqueParOiseau();
-    }, [props.race]);
 
     return (
         <>
@@ -77,14 +46,15 @@ export default function ListeCritiques(props) {
                                 <div className="col my-2">
                                     <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les critiques</h5>
                                     <hr />
-                                    {dataCritiques.map(critique => (
+                                    {props.dataCritiques.map(critique => (
                                         <CritiquePrecedente
                                             key={critique.id}
                                             idCritique={critique.id}
                                             temperament={critique.temperament}
                                             beaute={critique.beaute}
                                             utilisation={critique.utilisation}
-                                            stateDataCritique={[dataCritiques, setDataCritiques]}
+                                            stateDataCritique={[props.dataCritiques, props.setDataCritiques]}
+                                            rechargerCritiques={props.fetchDataCritiqueParOiseau}
                                         />
                                     ))}
                                 </div>
