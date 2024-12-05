@@ -63,8 +63,8 @@ function App() {
             <DataoiseauContext.Provider value={[dataOiseau, setDataOiseau]}>
                     <Navbar
                         surChangementCategorie={handleChangementCategorie}
-                        //dataCritiqueState={[dataCritiques, setDataCritiques]}
-                        dataOiseauState={[dataOiseau, setDataOiseau]}
+                        dataOiseau={dataOiseau}
+                        setDataOiseau={setDataOiseau}
                         oiseauxFiltre={oiseauxFiltre}
                         oiseauxTri={[boolOiseauTrie, setBoolOiseauTrie]}
                         ouvertStatistiquesState={ouvertStatistiquesState}
@@ -73,7 +73,8 @@ function App() {
                     <CatalogueOiseaux
                         oiseauxFiltre={oiseauxFiltre}
                         oiseauxTriBool={[boolOiseauTrie, setBoolOiseauTrie]}
-                        dataOiseauState={[dataOiseau, setDataOiseau]}
+                        dataOiseau={dataOiseau}
+                        setDataOiseau={setDataOiseau}
                         tuerOiseau={handleTuerOiseau}
                         ouvertStatistiquesState={ouvertStatistiquesState}
                         fermerStatistiquesToggle={fermerStatistiquesToggle}

@@ -1,32 +1,30 @@
 import AjouterOiseau from "./AjouterOiseau.jsx";
 import CarteProduit from "./CarteProduit.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CatalogueStatistiques from "./CatalogueStatistiques.jsx";
 
 export default function CatalogueOiseaux(props) {
-    const [estOuvert, setEstOuvert] = useState(false);
-    const [dataOiseau, setDataOiseau] = props.dataOiseauState;
+    const [estOuvertAjouterOiseau, setEstOuvertAjouterOiseau] = useState(false);
     const [estOuvertStatistiques, setEstOuvertStatistiques] = props.ouvertStatistiquesState;
 
     const toggleModalAjouterOiseau = () => {
-        setEstOuvert(!estOuvert);
+        setEstOuvertAjouterOiseau(!estOuvertAjouterOiseau);
     };
 
 
     return (<>
-        {/*afficher la section des stats*/}
         {estOuvertStatistiques && <CatalogueStatistiques
             dataCritiqueState={props.dataCritiqueState}
             estOuvertStatistiques={estOuvertStatistiques}
             fermerStatistiquesToggle={() => props.fermerStatistiquesToggle()}
         />}
         <div className="container-fluid ">
-
             <div className="row mb-4">
                 <button className="btn btn-secondary btn-lg" onClick={toggleModalAjouterOiseau}>Ajouter un oiseau
                 </button>
                 <AjouterOiseau
                     estOuvert={estOuvert}
+                    estOuvert={estOuvertAjouterOiseau}
                     toggleModal={toggleModalAjouterOiseau}
                 />
             </div>
@@ -46,6 +44,5 @@ export default function CatalogueOiseaux(props) {
                     </div>))}
             </div>
         </div>
-
     </>);
 }
