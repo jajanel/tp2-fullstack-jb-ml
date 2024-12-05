@@ -76,10 +76,12 @@ export async function calculerNoteGlobale(idCritique){
 }
 
 
-export async function getMoyenneParCategorie(categorieOiseau){
-    const response = await fetch("getMoyenneParCategorie/" + categorieOiseau);
-    if (!response.ok) throw new Error("Erreur de fetch des moyennes pour la catégorie" + categorieOiseau);
-    return await response.json()
+export async function getMoyenneParCategorie(categorie) {
+    const response = await fetch("http://localhost:8080/getMoyenneParCategorie/" +categorie);
+    if (!response.ok) {
+        throw new Error("Erreur de fetch de la moyenne pour la catégorie: " + categorie);
+    }
+    return await response.json();
 }
 
 

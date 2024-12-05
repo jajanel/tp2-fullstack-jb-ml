@@ -11,10 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -184,16 +187,13 @@ public class CritiqueController implements CommandLineRunner {
     @GetMapping("/getMoyenneParCategorie/{categorieOiseau}")
     public double getMoyenneParCategorie(@PathVariable String categorieOiseau) {
         double moyenneCategorie = 0;
-        if (critiqueRepository.existsByCategorieOiseau(categorieOiseau)) {
-            Collection<Critique> toutesCritiquesDeCategorie = (Collection<Critique>) critiqueRepository.findAllByCategorieOiseau(categorieOiseau);
-            for (Critique critique : toutesCritiquesDeCategorie ) {
-                logger.info("Calcul des moyennes pour les oiseaux {}", categorieOiseau);
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByCategorieOiseau(categorieOiseau);
+        if (critiques != null && !critiques.isEmpty()) {
+            for (Critique critique : critiques) {
                 moyenneCategorie += critique.calculNoteMoyenne();
-                moyenneCategorie /= toutesCritiquesDeCategorie.size();
             }
-        } else {
-            logger.warn("Aucun oiseau dans la catégorie: {}", categorieOiseau);
-            throw new CritiqueNotFoundException();
+            moyenneCategorie /= critiques.size();
+            moyenneCategorie = Math.round(moyenneCategorie * 100.0) / 100.0;
         }
         return moyenneCategorie;
     }
