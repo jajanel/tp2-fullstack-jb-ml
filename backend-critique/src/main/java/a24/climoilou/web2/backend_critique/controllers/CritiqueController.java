@@ -184,6 +184,26 @@ public class CritiqueController implements CommandLineRunner {
         }
     }
 
+
+    @GetMapping("/getMoyenneParOiseau/{nomOiseau}")
+    public double getMoyenneParOiseau(@PathVariable String nomOiseau){
+        double moyenneOiseau = 0;
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(nomOiseau);
+        if (!critiques.isEmpty()) {
+            for (Critique critique : critiques) {
+                moyenneOiseau += critique.calculNoteMoyenne();
+            }
+            moyenneOiseau /= critiques.size();
+            moyenneOiseau = Math.round(moyenneOiseau * 100.0) / 100.0;
+        }
+        return moyenneOiseau;
+    }
+
+
+
+
+
+
     @GetMapping("/getMoyenneParCategorie/{categorieOiseau}")
     public double getMoyenneParCategorie(@PathVariable String categorieOiseau) {
         double moyenneCategorie = 0;
