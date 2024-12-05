@@ -76,6 +76,14 @@ export async function calculerNoteGlobaleCritique(idCritique){
 }
 
 
+export async function calculerMoyenneParOiseau(nomOiseau){
+    const response = await fetch("http://localhost:8080/getMoyenneParOiseau/" +nomOiseau);
+    if (!response.ok) throw new Error("Erreur de calcul de la moyenne pour l'oiseau: " + nomOiseau)
+    return await response.json()
+}
+
+
+
 export async function getMoyenneParCategorie(categorie) {
     const response = await fetch("http://localhost:8080/getMoyenneParCategorie/" +categorie);
     if (!response.ok) {
