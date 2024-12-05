@@ -1,6 +1,5 @@
 package a24.climoilou.web2.backend_critique.models;
 
-import a24.climoilou.web2.backend_critique.repositories.CritiqueRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,15 +21,21 @@ public class Critique  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String raceOiseau;
+    private String categorieOiseau;
     private double temperament;
     private double beaute;
     private double utilisation;
 
-    public Critique(String raceOiseau, double temperament, double beaute, double utilisation) {
+    public Critique(String raceOiseau, String categorieOiseau, double temperament, double beaute, double utilisation) {
         this.raceOiseau = raceOiseau;
+        this.categorieOiseau = categorieOiseau;
         this.temperament = temperament;
         this.beaute = beaute;
         this.utilisation = utilisation;
     }
 
+
+    public double calculNoteMoyenne(){
+        return (temperament + beaute + utilisation)/3;
+    }
 }

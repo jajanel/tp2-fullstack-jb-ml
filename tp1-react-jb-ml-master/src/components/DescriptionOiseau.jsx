@@ -76,7 +76,7 @@ export default function DescriptionOiseau(props) {
                             <div className="row">
                                 <div
                                     className="btn-wrapper text-center d-flex justify-content-evenly modal-footer">
-                                    <button className="btn btn-danger  btn-lg" onClick={props.toggleModalDescription}>Annuler
+                                    <button className="btn btn-danger  btn-lg" onClick={props.toggleModalDescription}>Fermer
                                     </button>
                                     {/*Afficher soit Confirmer ou Modifier comme titre dépendamment du state*/}
                                     {props.estOuvertModifDescription ?

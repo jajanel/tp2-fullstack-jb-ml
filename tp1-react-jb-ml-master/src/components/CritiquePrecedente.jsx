@@ -1,4 +1,4 @@
-import { calculerNoteGlobale, supprimerCritique } from "../scripts/http-critiques.js";
+import { calculerNoteGlobaleCritique, supprimerCritique } from "../scripts/http-critiques.js";
 import { useEffect, useState } from "react";
 
 export default function CritiquePrecedente(props) {
@@ -16,7 +16,7 @@ export default function CritiquePrecedente(props) {
     useEffect(() => {
         async function fetchNoteGlobale() {
             try {
-                const note = await calculerNoteGlobale(props.idCritique);
+                const note = await calculerNoteGlobaleCritique(props.idCritique);
                 setNoteGlobale(note);
             } catch (e) {
                 console.log("La note globale de la critique avec l'id " + props.idCritique + " n'a pas pu être calculée");

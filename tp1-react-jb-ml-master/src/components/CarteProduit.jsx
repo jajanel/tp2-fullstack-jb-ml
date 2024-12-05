@@ -40,18 +40,11 @@ export default function CarteProduit(props) {
         if (oiseauASupprimer !== null) {
             props.tuerOiseau(oiseauASupprimer);
             setOiseauASupprimer(null);
-            handleSupprimerToutesCritiques();
             toggleModalConfirmation();
         }
     };
 
-    async function handleSupprimerToutesCritiques() {
-        try {
-            await supprimerToutesCritiqueParOiseau(props.race).then(() => { fetchDataCritiqueParOiseau() });
-        } catch (e) {
-            console.log("La critique avec l'id " + props.idCritique + " n'a pas pu être supprimée. Erreur: " + e.message);
-        }
-    }
+
 
     async function fetchDataCritiqueParOiseau() {
         setIsLoading(true);
@@ -59,7 +52,7 @@ export default function CarteProduit(props) {
             const donneesServeur = await fetchCritiqueParOiseau(props.race);
             setDataCritiques(donneesServeur);
         } catch (erreurServeur) {
-            setErreurServeur({ error: "Erreur de fetching des produits du serveur", message: erreurServeur.message });
+            setErreurServeur({ error: "error", message: erreurServeur.message });
         } finally {
             setIsLoading(false);
         }
@@ -97,6 +90,7 @@ export default function CarteProduit(props) {
                         dataCritiques={dataCritiques}
                         setDataCritiques={setDataCritiques}
                         isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                         erreurServeur={erreurServeur}
                         fetchDataCritiqueParOiseau={fetchDataCritiqueParOiseau}
                     />

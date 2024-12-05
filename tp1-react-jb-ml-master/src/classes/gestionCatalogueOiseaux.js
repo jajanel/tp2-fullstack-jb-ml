@@ -1,5 +1,6 @@
  import {dataOiseau} from "../assets/oiseaux.js";
 // import GestionCatalogueCritique from './gestionCatalogueCritique.js';
+ import { supprimerToutesCritiqueParOiseau } from '../scripts/http-critiques.js';
 
 class GestionCatalogueOiseaux {
     constructor() {
@@ -26,10 +27,12 @@ class GestionCatalogueOiseaux {
 
     // Supprimer un oiseau de la liste et ses critiques et sauvegarder
     supprimerOiseau(idOiseau) {
-        this.oiseaux = this.oiseaux.filter(oiseau => oiseau.idOiseau !== idOiseau);
-        const gestionCritique = new GestionCatalogueCritique();
-        gestionCritique.supprimerCritiquesParOiseau(idOiseau);
-        this.sauvegarder();
+        const oiseau = this.oiseaux.find(oiseau => oiseau.idOiseau === idOiseau);
+        if (oiseau) {
+            supprimerToutesCritiqueParOiseau(oiseau.race);
+            this.oiseaux = this.oiseaux.filter(oiseau => oiseau.idOiseau !== idOiseau);
+            this.sauvegarder();
+        }
     }
 
     // Filtrer les oiseaux et mettre à jour la liste des oiseaux

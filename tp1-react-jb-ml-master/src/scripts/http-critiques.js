@@ -50,6 +50,7 @@ export async function supprimerCritique(idCritique){
             method: 'DELETE'
         })
     if (!response.ok) throw new Error("La critique n'a pas pu être supprimée")
+
 }
 
 /**
@@ -63,15 +64,51 @@ export async function supprimerToutesCritiqueParOiseau(nomOiseau){
         })
 
     if (!response.ok) throw new Error("Les critiques n'ont pas pu être supprimées")
+
 }
 
-export async function calculerNoteGlobale(idCritique){
+export async function calculerNoteGlobaleCritique(idCritique){
     const response = await fetch("http://localhost:8080/getNoteGlobale/" +idCritique);
 
-    if (!response.ok) throw new Error("Erreur de calcul de la note globale. Pour: " + await response.json())
+    if (!response.ok) throw new Error("Erreur de calcul de la note globale pour " + idCritique)
 
     return await response.json()
 }
 
 
+export async function calculerMoyenneParOiseau(nomOiseau){
+    const response = await fetch("http://localhost:8080/getMoyenneParOiseau/" +nomOiseau);
+    if (!response.ok) throw new Error("Erreur de calcul de la moyenne pour l'oiseau: " + nomOiseau)
+    return await response.json()
+}
+
+
+
+export async function getMoyenneParCategorie(categorie) {
+    const response = await fetch("http://localhost:8080/getMoyenneParCategorie/" +categorie);
+    if (!response.ok) {
+        throw new Error("Erreur de fetch de la moyenne pour la catégorie: " + categorie);
+    }
+    return await response.json();
+}
+
+
+
+
+
+
+export async function getNotePlusBasse(listeCritique){
+    const response = await fetch("http://localhost:8080/getNotePlusBasse/");
+    if (!response.ok) throw new Error("Erreur de calcul de la note la plus basse pour la liste de critiques")
+    return await response.json()
+
+}
+
+
+export async function getNotePlusHaute(listeCritique){
+    const response = await fetch("http://localhost:8080/getNotePlusHaute/");
+    if (!response.ok) throw new Error("Erreur de calcul de la note la plus haute pour la liste de critiques")
+    return await response.json()
+
+}
 

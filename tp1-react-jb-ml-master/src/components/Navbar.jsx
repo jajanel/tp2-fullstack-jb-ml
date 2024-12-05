@@ -7,7 +7,7 @@ export default function Navbar(props) {
     const toggleModalStatistiques = () => {
         handleChoixCategorie("tous");
         props.oiseauxTri[1](true);
-        setEstOuvertStatistiques(estOuvertStatistiques=>!estOuvertStatistiques);
+        setEstOuvertStatistiques(estOuvertStatistiques => !estOuvertStatistiques);
     };
 
     // Changer la catégorie des oiseaux affichés dans le catalogue selon la catégorie cliquée par l'utilisateur et ferme la section stats si ouverte.
@@ -16,6 +16,10 @@ export default function Navbar(props) {
         props.fermerStatistiquesToggle();
     };
 
+    const toggleTheme = () => {
+        const themeSecondaire = props.theme === "lumen" ? "pulse" : "lumen";
+        props.setTheme(themeSecondaire);
+    };
 
     return (
         <>
@@ -45,8 +49,11 @@ export default function Navbar(props) {
                                 <button className="btn btn-secondary mx-2" onClick={() => handleChoixCategorie("dinde")}>Dindes</button>
                             </li>
                         </ul>
-                        <div >
+                        <div>
                             <button onClick={toggleModalStatistiques} className="btn btn-success" type="button">Statistiques</button>
+                        </div>
+                        <div>
+                            <button onClick={toggleTheme} className="btn btn-success mx-2">toggle thème</button>
                         </div>
                     </div>
                 </div>

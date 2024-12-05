@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-
-import java.util.Optional;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -29,14 +29,15 @@ public class CritiqueController implements CommandLineRunner {
     private CritiqueRepository critiqueRepository;
 
 
+
     private Logger logger = LoggerFactory.getLogger(CritiqueController.class);
 
     @Override
     public void run(String... args) throws Exception {
         //TEST DES FONCTIONS AVEC QUELQUES CRITIQUES EN BASE DE DONNÉES:
-        //supprimerToutesCritiques();
-        ajouterCritique(new Critique("chantecler", 50, 50, 50));
-        ajouterCritique(new Critique("Poule Rousse", 60, 60, 60));
+        supprimerToutesCritiques();
+        ajouterCritique(new Critique("chantecler", "Poule",50, 50, 50));
+        ajouterCritique(new Critique("rousse","Poule", 60, 60, 60));
     }
 
 
@@ -106,12 +107,14 @@ public class CritiqueController implements CommandLineRunner {
      */
     @DeleteMapping("/supprimerToutesCritiquesParOiseau/{raceOiseau}")
     public void supprimerToutesCritiquesParOiseau(@PathVariable String raceOiseau) {
-        if (critiqueRepository.findAllByRaceOiseau(raceOiseau) != null) {
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(raceOiseau);
+        if (critiques != null && !critiques.isEmpty()) {
             logger.info("Suppression de toutes les critiques pour {}", raceOiseau);
-            critiqueRepository.deleteAll(critiqueRepository.findAllByRaceOiseau(raceOiseau));
+            critiqueRepository.deleteAll(critiques);
+        } else {
+            logger.warn("Il n'y a  plus aucune critique à supprimer pour {}", raceOiseau);
+
         }
-        logger.warn("Il n'y a aucune critique à supprimer pour {}", raceOiseau);
-        throw new CritiqueNotFoundException();
     }
 
     //Méthode testée
@@ -172,14 +175,49 @@ public class CritiqueController implements CommandLineRunner {
     @GetMapping("/getNoteGlobale/{idCritique}")
     public double getNoteGlobale(@PathVariable Long idCritique) {
         if (critiqueRepository.findById(idCritique).isPresent()) {
-            logger.info("Retourne la note moyenne de la critique {}", idCritique);
-            logger.info("La note moyenne est de: {}", critiqueRepository.calculNoteGlobale(idCritique));
-            return critiqueRepository.calculNoteGlobale(idCritique);
+            double noteGlobale = Math.round(critiqueRepository.calculNoteGlobale(idCritique) * 100)/100;
+            logger.info("La note moyenne de la critique {} est de: {}", idCritique, noteGlobale);
+            return noteGlobale;
         } else {
             logger.warn("La critique demandée {} n'existe pas", idCritique);
             throw new CritiqueNotFoundException();
         }
     }
+
+
+    @GetMapping("/getMoyenneParOiseau/{nomOiseau}")
+    public double getMoyenneParOiseau(@PathVariable String nomOiseau){
+        double moyenneOiseau = 0;
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(nomOiseau);
+        if (!critiques.isEmpty()) {
+            for (Critique critique : critiques) {
+                moyenneOiseau += critique.calculNoteMoyenne();
+            }
+            moyenneOiseau /= critiques.size();
+            moyenneOiseau = Math.round(moyenneOiseau * 100.0) / 100.0;
+        }
+        return moyenneOiseau;
+    }
+
+
+
+
+
+
+    @GetMapping("/getMoyenneParCategorie/{categorieOiseau}")
+    public double getMoyenneParCategorie(@PathVariable String categorieOiseau) {
+        double moyenneCategorie = 0;
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByCategorieOiseau(categorieOiseau);
+        if (critiques != null && !critiques.isEmpty()) {
+            for (Critique critique : critiques) {
+                moyenneCategorie += critique.calculNoteMoyenne();
+            }
+            moyenneCategorie /= critiques.size();
+            moyenneCategorie = Math.round(moyenneCategorie * 100.0) / 100.0;
+        }
+        return moyenneCategorie;
+    }
+
 
 
     @ExceptionHandler(CritiqueInvalideException.class)
