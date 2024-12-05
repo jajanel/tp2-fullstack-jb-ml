@@ -49,24 +49,27 @@ export default function ListeCritiques(props) {
                 <div className="my-4">
                     <div className="row text-start m-4">
                         <div className="col my-2">
-                            <h5 className="text-uppercase display-6 m-3 text-start">Visualiser les
-                                critiques</h5>
+                            <h5 className="text-uppercase display-6 m-4 text-start">Visualiser les critiques</h5>
                             <hr/>
                             {props.isLoading ? <div className="spinner-border text-primary" role="status">
                                 <span className="visually-hidden">Chargement...</span>
-                            </div> : !erreurServeur.error ? props.dataCritiques.map(critique => (
-                                <CritiquePrecedente
-                                key={critique.id}
-                                idCritique={critique.id}
-                                temperament={critique.temperament}
-                                beaute={critique.beaute}
-                                utilisation={critique.utilisation}
-                                stateDataCritique={[props.dataCritiques, props.setDataCritiques]}
-                                rechargerCritiques={props.fetchDataCritiqueParOiseau}
-                                isLoading={props.isLoading}
-                                setIsLoading={props.setIsLoading}
-
-                            />)) :
+                            </div> : !erreurServeur.error ?
+                                <div className="row">
+                                    {props.dataCritiques.map((critique, index) => (
+                                        <div className="col-xl-4 col-lg-6 " key={critique.id}>
+                                            <CritiquePrecedente
+                                                idCritique={critique.id}
+                                                temperament={critique.temperament}
+                                                beaute={critique.beaute}
+                                                utilisation={critique.utilisation}
+                                                stateDataCritique={[props.dataCritiques, props.setDataCritiques]}
+                                                rechargerCritiques={props.fetchDataCritiqueParOiseau}
+                                                isLoading={props.isLoading}
+                                                setIsLoading={props.setIsLoading}
+                                            />
+                                        </div>
+                                    ))}
+                                </div> :
                                 <div className="alert alert-danger" role="alert">
                                     {erreurServeur.message}
                                 </div>
@@ -74,9 +77,9 @@ export default function ListeCritiques(props) {
                         </div>
                     </div>
                 </div>
-                <div className="row px-4">
+                <div className="row px-4 sticky-bottom">
                     <div className="btn-wrapper text-center d-flex justify-content-start modal-footer">
-                        <button className="btn btn-danger btn-lg" onClick={props.toggleModalCritique}>Fermer
+                        <button className="btn btn-danger " onClick={props.toggleModalCritique}>Fermer
                         </button>
                     </div>
                 </div>
