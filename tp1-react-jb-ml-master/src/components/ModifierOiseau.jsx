@@ -121,7 +121,8 @@ export default function ModifierOiseau(props) {
                                     </div>
                                     <div className="pb-4 text-start">
                                         <h4 className="form-label">Date de publication</h4>
-                                        <input disabled value={props.date} type="date" className="form-control form-select-lg" id="datePublication" name="datePublication" />
+                                        {/*La date est maintenant modifiable*/}
+                                        <input value={props.date} type="date" className="form-control form-select-lg" id="datePublication" name="datePublication" />
                                     </div>
                                 </div>
                             </div>
