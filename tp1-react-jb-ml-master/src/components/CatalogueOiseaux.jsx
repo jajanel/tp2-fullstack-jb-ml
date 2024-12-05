@@ -29,7 +29,7 @@ export default function CatalogueOiseaux(props) {
             }
         }
         trierOiseauxParMoyenne();
-    }, [estOuvertStatistiques, props.dataCritiqueState]);
+    }, [estOuvertStatistiques, props.dataOiseau]);
 
 
     return (<>
