@@ -67,7 +67,7 @@ export async function supprimerToutesCritiqueParOiseau(nomOiseau){
 
 }
 
-export async function calculerNoteGlobale(idCritique){
+export async function calculerNoteGlobaleCritique(idCritique){
     const response = await fetch("http://localhost:8080/getNoteGlobale/" +idCritique);
 
     if (!response.ok) throw new Error("Erreur de calcul de la note globale pour " + idCritique)
