@@ -1,17 +1,12 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import './App.css';
 import Navbar from "./components/Navbar.jsx";
 import CatalogueOiseaux from "./components/CatalogueOiseaux.jsx";
-import {dataOiseau, dataOiseau as donnesOiseauxDefaut} from "./assets/oiseaux.js";
-//import {dataCritiques, dataCritiques as donneesCritiquesDefaut} from "./assets/critiques.js";
-import {filtrerEtMettreAJourOiseaux, supprimerOiseau} from "./classes/gestionCatalogueOiseaux.js";
-//import  {filtrerEtMettreAJourCritiques} from "./classes/gestionCatalogueCritique.js";
-import {DataoiseauContext} from "./components/contexts/DataOiseauContext.jsx";
-import {DataCritiqueContext} from "./components/contexts/DataCritiqueContext.jsx";
+import { dataOiseau, dataOiseau as donnesOiseauxDefaut } from "./assets/oiseaux.js";
+import { filtrerEtMettreAJourOiseaux, supprimerOiseau } from "./classes/gestionCatalogueOiseaux.js";
+import { DataoiseauContext } from "./components/contexts/DataOiseauContext.jsx";
 import Footer from "./components/Footer.jsx";
-import {fetchCritiqueParOiseau} from "./scripts/http-critiques.js";
 
-// Fonction pour obtenir les données du local storage ou utiliser les données par défaut
 const getDonneesLocalStorage = (key, donneesParDefaut) => {
     const donnees = localStorage.getItem(key);
     return donnees ? JSON.parse(donnees) : donneesParDefaut;
@@ -20,6 +15,7 @@ const getDonneesLocalStorage = (key, donneesParDefaut) => {
 function App() {
     const [categorieSelectionne, setCategorieSelectionne] = useState("tous");
     const [boolOiseauTrie, setBoolOiseauTrie] = useState(false);
+    const [theme, setTheme] = useState("lumen");
 
     //TODO MAEK
     const [dataOiseau,  setDataOiseau] = useState(() => getDonneesLocalStorage("dataOiseau", donnesOiseauxDefaut));
@@ -60,28 +56,32 @@ function App() {
 
     return (
         <>
+            {/*Oui c'est un peu sketch, c'était la maniere la plus simple avec bootswatch qui faisait déjà mon thème
+            Au click du toggle dans navbar, l'import de bootswatch qui détermine le thème est changé pour le nouveau thème*/}
+            <link rel="stylesheet" href={"https://bootswatch.com/5/"+theme+"/bootstrap.min.css"} />
             <DataoiseauContext.Provider value={[dataOiseau, setDataOiseau]}>
-                    <Navbar
-                        surChangementCategorie={handleChangementCategorie}
-                        dataOiseau={dataOiseau}
-                        setDataOiseau={setDataOiseau}
-                        oiseauxFiltre={oiseauxFiltre}
-                        oiseauxTri={[boolOiseauTrie, setBoolOiseauTrie]}
-                        ouvertStatistiquesState={ouvertStatistiquesState}
-                        fermerStatistiquesToggle={fermerStatistiquesToggle}
-                    />
-                    <CatalogueOiseaux
-                        oiseauxFiltre={oiseauxFiltre}
-                        oiseauxTriBool={[boolOiseauTrie, setBoolOiseauTrie]}
-                        dataOiseau={dataOiseau}
-                        setDataOiseau={setDataOiseau}
-                        tuerOiseau={handleTuerOiseau}
-                        ouvertStatistiquesState={ouvertStatistiquesState}
-                        fermerStatistiquesToggle={fermerStatistiquesToggle}
-
-                    />
+                <Navbar
+                    surChangementCategorie={handleChangementCategorie}
+                    dataOiseau={dataOiseau}
+                    setDataOiseau={setDataOiseau}
+                    oiseauxFiltre={oiseauxFiltre}
+                    oiseauxTri={[boolOiseauTrie, setBoolOiseauTrie]}
+                    ouvertStatistiquesState={ouvertStatistiquesState}
+                    fermerStatistiquesToggle={fermerStatistiquesToggle}
+                    setTheme={setTheme}
+                    theme={theme}
+                />
+                <CatalogueOiseaux
+                    oiseauxFiltre={oiseauxFiltre}
+                    oiseauxTriBool={[boolOiseauTrie, setBoolOiseauTrie]}
+                    dataOiseau={dataOiseau}
+                    setDataOiseau={setDataOiseau}
+                    tuerOiseau={handleTuerOiseau}
+                    ouvertStatistiquesState={ouvertStatistiquesState}
+                    fermerStatistiquesToggle={fermerStatistiquesToggle}
+                />
             </DataoiseauContext.Provider>
-            <Footer/>
+            <Footer />
         </>
     );
 }
