@@ -13,7 +13,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 public class Critique  {
 
     @Id
@@ -35,6 +34,10 @@ public class Critique  {
     }
 
 
+    /**
+     * Calcul de la note moyenne pôur calculer la note globale et la moyenne des notes globale pour chaque oiseau
+     * @return
+     */
     public double calculNoteMoyenne(){
         return (temperament + beaute + utilisation)/3;
     }
