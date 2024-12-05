@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import './App.css';
 import Navbar from "./components/Navbar.jsx";
-import CatalogueOiseaux from "./components/CatalogueOiseaux.jsx";
+import CatalogueOiseaux from "./components/Critiques-Oiseaux/CatalogueOiseaux.jsx";
 import { dataOiseau, dataOiseau as donnesOiseauxDefaut } from "./assets/oiseaux.js";
 import { filtrerEtMettreAJourOiseaux, supprimerOiseau } from "./classes/gestionCatalogueOiseaux.js";
-import { DataoiseauContext } from "./components/contexts/DataOiseauContext.jsx";
+import { DataoiseauContext } from "./contexts/DataOiseauContext.jsx";
 import Footer from "./components/Footer.jsx";
 
 const getDonneesLocalStorage = (key, donneesParDefaut) => {

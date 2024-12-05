@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getMoyenneParCategorie } from '../scripts/http-critiques.js';
+import { getMoyenneParCategorie } from '../../scripts/http-critiques.js';
 
 export default function CatalogueStatistiques(props) {
     const [moyennes, setMoyennes] = useState({});

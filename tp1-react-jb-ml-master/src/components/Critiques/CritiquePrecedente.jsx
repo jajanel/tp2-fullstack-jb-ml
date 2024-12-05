@@ -1,4 +1,4 @@
-import { calculerNoteGlobaleCritique, supprimerCritique } from "../scripts/http-critiques.js";
+import { calculerNoteGlobaleCritique, supprimerCritique } from "../../scripts/http-critiques.js";
 import { useEffect, useState } from "react";
 
 export default function CritiquePrecedente(props) {

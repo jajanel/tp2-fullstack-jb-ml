@@ -1,5 +1,5 @@
 import {useContext, useState} from "react";
-import {DataoiseauContext} from "./contexts/DataOiseauContext.jsx";
+import {DataoiseauContext} from "../../contexts/DataOiseauContext.jsx";
 
 
 export default function ModifierOiseau(props) {

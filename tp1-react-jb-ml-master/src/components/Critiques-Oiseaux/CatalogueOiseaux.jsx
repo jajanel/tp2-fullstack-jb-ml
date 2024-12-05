@@ -1,8 +1,8 @@
-import AjouterOiseau from "./AjouterOiseau.jsx";
+import AjouterOiseau from "../Oiseaux/AjouterOiseau.jsx";
 import CarteProduit from "./CarteProduit.jsx";
 import {useEffect, useState} from "react";
 import CatalogueStatistiques from "./CatalogueStatistiques.jsx";
-import {calculerMoyenneParOiseau} from "../scripts/http-critiques.js";
+import {calculerMoyenneParOiseau} from "../../scripts/http-critiques.js";
 
 export default function CatalogueOiseaux(props) {
     const [estOuvertAjouterOiseau, setEstOuvertAjouterOiseau] = useState(false);

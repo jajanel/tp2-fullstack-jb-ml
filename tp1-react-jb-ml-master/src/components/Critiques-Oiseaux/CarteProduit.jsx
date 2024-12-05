@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import DescriptionOiseau from "./DescriptionOiseau.jsx";
-import ConfirmationSupression from "./ConfirmationSupression.jsx";
-import ListeCritiques from "./ListeCritiques.jsx";
-import { fetchCritiqueParOiseau, supprimerToutesCritiqueParOiseau, ajouterCritique } from "../scripts/http-critiques.js";
+import DescriptionOiseau from "../Oiseaux/DescriptionOiseau.jsx";
+import ConfirmationSupression from "../Oiseaux/ConfirmationSupression.jsx";
+import ListeCritiques from "../Critiques/ListeCritiques.jsx";
+import { fetchCritiqueParOiseau, supprimerToutesCritiqueParOiseau, ajouterCritique } from "../../scripts/http-critiques.js";
 
 export default function CarteProduit(props) {
     const [estOuvertDescription, setEstOuvertDescription] = useState(false);

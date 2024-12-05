@@ -1,12 +1,11 @@
 import {useContext, useState} from "react";
-import { ajouterOiseau, newIdOiseau } from "../classes/gestionCatalogueOiseaux.js";
-import {DataoiseauContext} from "./contexts/DataOiseauContext.jsx";
+import { ajouterOiseau, newIdOiseau } from "../../classes/gestionCatalogueOiseaux.js";
+import {DataoiseauContext} from "../../contexts/DataOiseauContext.jsx";
 
 export default function AjouterOiseau(props) {
     // Valeur par défaut de l'image à afficher dans le formulaire pour l'ajout de l'oiseau
     const [srcImgForm, setSrcImgForm] = useState("https://via.placeholder.com/300");
     const [dataOiseaux, setDataOiseaux] = useContext(DataoiseauContext);
-    let bruitOiseau = new Audio("././assets/sons/chicken_1.mp3");
 
     function dateFormat(date) {
         return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();

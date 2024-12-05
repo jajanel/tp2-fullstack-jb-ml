@@ -1,7 +1,7 @@
 import MaCritique from "./MaCritique.jsx";
 import CritiquePrecedente from "./CritiquePrecedente.jsx";
 import {useState} from "react";
-import {ajouterCritique} from "../scripts/http-critiques.js";
+import {ajouterCritique} from "../../scripts/http-critiques.js";
 
 export default function ListeCritiques(props) {
     const [erreurServeur, setErreurServeur] = useState({error: undefined, message: "Aucune erreur, pour l'instant.."});
