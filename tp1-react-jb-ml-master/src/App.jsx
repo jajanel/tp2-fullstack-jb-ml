@@ -79,6 +79,7 @@ function App() {
                     tuerOiseau={handleTuerOiseau}
                     ouvertStatistiquesState={ouvertStatistiquesState}
                     fermerStatistiquesToggle={fermerStatistiquesToggle}
+                    categorieSelectionne={categorieSelectionne}
                 />
             </DataoiseauContext.Provider>
             <Footer />

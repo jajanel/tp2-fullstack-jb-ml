@@ -11,6 +11,7 @@ export default function CatalogueOiseaux(props) {
 
     const toggleModalAjouterOiseau = () => {
         setEstOuvertAjouterOiseau(!estOuvertAjouterOiseau);
+        setEstOuvertStatistiques(false);
     };
 
     useEffect(() => {
@@ -24,24 +25,24 @@ export default function CatalogueOiseaux(props) {
                 const oiseauxTries = oiseauxAvecMoyenne.sort((a, b) => b.moyenne - a.moyenne);
                 setOiseauxTries(oiseauxTries);
             } else {
-                //Si la section des stats n'est pas ouverte on garde le Filtre normal défini dans app
+                // Si la section des stats n'est pas ouverte on garde le Filtre normal défini dans app
                 setOiseauxTries(props.oiseauxFiltre);
             }
         }
         trierOiseauxParMoyenne();
-    }, [estOuvertStatistiques, props.dataOiseau]);
+    }, [estOuvertStatistiques, props.dataOiseau, props.categorieSelectionne]);
 
 
     return (<>
-        {estOuvertStatistiques && <CatalogueStatistiques
+        {estOuvertStatistiques &&
+            <CatalogueStatistiques
             dataCritiqueState={props.dataCritiqueState}
             estOuvertStatistiques={estOuvertStatistiques}
-            fermerStatistiquesToggle={() => props.fermerStatistiquesToggle()}
-        />}
+            fermerStatistiquesToggle={() => props.fermerStatistiquesToggle()}/>
+        }
         <div className="container-fluid ">
             <div className="row mb-4">
-                <button className="btn btn-secondary btn-lg" onClick={toggleModalAjouterOiseau}>Ajouter un oiseau
-                </button>
+                <button className="btn btn-secondary btn-lg" onClick={toggleModalAjouterOiseau}>Ajouter un oiseau</button>
                 <AjouterOiseau
                     estOuvert={estOuvertAjouterOiseau}
                     toggleModal={toggleModalAjouterOiseau}
