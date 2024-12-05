@@ -1,5 +1,4 @@
 package a24.climoilou.web2.backend_critique.controllers;
-
 import a24.climoilou.web2.backend_critique.exceptions.CritiqueInvalideException;
 import a24.climoilou.web2.backend_critique.exceptions.CritiqueNotFoundException;
 import a24.climoilou.web2.backend_critique.exceptions.ErreurCritique;
@@ -11,18 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class CritiqueController implements CommandLineRunner {
-
     @Autowired
     private CritiqueValidateur critiqueValidateur;
     @Autowired
@@ -36,6 +29,7 @@ public class CritiqueController implements CommandLineRunner {
     public void run(String... args) throws Exception {
         //TEST DES FONCTIONS AVEC QUELQUES CRITIQUES EN BASE DE DONNÉES:
         supprimerToutesCritiques();
+        logger.info("Ajout de quelques critiques pour les tests: ");
         ajouterCritique(new Critique("chantecler", "Poule",50, 50, 50));
         ajouterCritique(new Critique("rousse","Poule", 60, 60, 60));
     }
@@ -43,7 +37,6 @@ public class CritiqueController implements CommandLineRunner {
 
     /**
      * Retourne toutes les critiques contenues dans le repository des critiques
-     *
      * @return toutes les critiques
      * @throws InterruptedException si le serveur prend trop de temps à répondre
      */
@@ -55,7 +48,6 @@ public class CritiqueController implements CommandLineRunner {
 
     /**
      * Retourne toutes les critiques pour le nom de l'oiseau donné en param
-     *
      * @param raceOiseau le nom de l'oiseau pour lequel on cherche les critiques
      * @return toutes les critiques pour cet oiseau
      * @throws InterruptedException si le serveur prend trop de temps à répondre
@@ -67,7 +59,12 @@ public class CritiqueController implements CommandLineRunner {
 
     }
 
-    //MÉTHODE TESTÉE
+
+    /**
+     * Méthode permettant d'ajouter une nouvelle critique dans la base de données
+     * @param critique la critique passée par le frontend à ajouter dans la BD
+     * @return l'ID de la nouvelle critique qui a été créée
+     */
     @PostMapping("/ajouterCritique")
     public Long ajouterCritique(@RequestBody Critique critique) {
         Long id = 0L;
@@ -83,7 +80,7 @@ public class CritiqueController implements CommandLineRunner {
         return id;
     }
 
-    //MÉTHODE TESTÉE
+
     /**
      * Fonction qui permet de supprimer une critique de par son ID passée en paramètres
      * @param id l'id de la critique à supprimer
@@ -99,11 +96,10 @@ public class CritiqueController implements CommandLineRunner {
         }
     }
 
-    //MÉTHODE TESTÉE
+
     /**
-     * Fonction qui supprime toutes les critiques associées à un produit (oiseau) de par son nom.
-     *
-     * @param raceOiseau le nom de l'oiseau pour lequel on souhaite supprimer toutes les critiques.
+     * Fonction qui permet de supprimer toutes les critiques pour un oiseau donné
+     * @param raceOiseau la race de l'oiseau (par exemple: chantecler, rousse, oscellated,etc.)
      */
     @DeleteMapping("/supprimerToutesCritiquesParOiseau/{raceOiseau}")
     public void supprimerToutesCritiquesParOiseau(@PathVariable String raceOiseau) {
@@ -117,7 +113,10 @@ public class CritiqueController implements CommandLineRunner {
         }
     }
 
-    //Méthode testée
+    /**
+     * Méthode non utilisée par le front qui permet de vider complètement la base de données.
+     * PLus utilisée pour des tests
+     */
     public void supprimerToutesCritiques() {
         logger.info("Suppression de toutes les critiques");
         critiqueRepository.deleteAll();
@@ -125,52 +124,9 @@ public class CritiqueController implements CommandLineRunner {
 
 
     /**
-     * Retourne la note la plus haute de toute la liste de critique
-     *
-     * @param listeCritique la liste de critique données
-     * @return la note la plus haute
-     */
-    @GetMapping("/getNotePlusHaute/")
-    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
-        return listeCritique.stream()
-                .mapToDouble(critique -> {
-                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
-                        return critiqueRepository.calculNoteGlobale(critique.getId());
-                    } else {
-                        throw new CritiqueNotFoundException();
-                    }
-                })
-                .max()
-                .orElseThrow(CritiqueNotFoundException::new);
-    }
-
-    /**
-     * Retourne la note la plus basse de toute la liste de critique
-     *
-     * @param listeCritique la liste de critique données
-     * @return la note la plus basse
-     */
-    @GetMapping("/getNotePlusBasse/")
-    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
-        return listeCritique.stream()
-                .mapToDouble(critique -> {
-                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
-                        return critiqueRepository.calculNoteGlobale(critique.getId());
-                    } else {
-                        throw new CritiqueNotFoundException();
-                    }
-                })
-                .min()
-                .orElseThrow(CritiqueNotFoundException::new);
-    }
-
-
-    //MÉTHODE TESTÉE
-    /**
-     * Retourne la note moyenne de la critique qui est passé en paramètre
-     *
-     * @param idCritique l'id de la critique pour laquelle on souhaite obtenir la note moyenne
-     * @return la note moyenne de la critique
+     * Retourne la note globale pour une seule critique, donc la moyenne du tempérament, beauté et utilisationd d'un oiseau.
+     * @param idCritique l'id de la critique d'un oiseau que l'on veut obtenir la note globale
+     * @return la note globale de la critique ou une exception si la critique avec cet id est inexistante.
      */
     @GetMapping("/getNoteGlobale/{idCritique}")
     public double getNoteGlobale(@PathVariable Long idCritique) {
@@ -185,10 +141,15 @@ public class CritiqueController implements CommandLineRunner {
     }
 
 
-    @GetMapping("/getMoyenneParOiseau/{nomOiseau}")
-    public double getMoyenneParOiseau(@PathVariable String nomOiseau){
+    /**
+     * Méthode permettant de calculer la moyenne des notes globales de toutes les critiques d'un seul oiseau.
+     * @param raceOiseau la race de l'oiseau pour lequel on veut obtenir la moyenne des notes globales (nom de l'oiseau: chantecler, rousse, oscellated, etc.)
+     * @return la moyenne des notes globales de toutes les critiques pour cet oiseau
+     */
+    @GetMapping("/getMoyenneParOiseau/{raceOiseau}")
+    public double getMoyenneParOiseau(@PathVariable String raceOiseau){
         double moyenneOiseau = 0;
-        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(nomOiseau);
+        Collection<Critique> critiques = (Collection<Critique>) critiqueRepository.findAllByRaceOiseau(raceOiseau);
         if (!critiques.isEmpty()) {
             for (Critique critique : critiques) {
                 moyenneOiseau += critique.calculNoteMoyenne();
@@ -200,10 +161,11 @@ public class CritiqueController implements CommandLineRunner {
     }
 
 
-
-
-
-
+    /**
+     * Méthode permettant de calculer la moyenne des notes globales de toutes les critiques pour tout les oiseaux d'une catégorie donnée
+     * @param categorieOiseau la catgorie de l'oiseau (par exemple: Poule, Canard, Oie, etc.)
+     * @return la moyenne des notes globales de toutes les critiques pour cette catégorie d'oiseau en double
+     */
     @GetMapping("/getMoyenneParCategorie/{categorieOiseau}")
     public double getMoyenneParCategorie(@PathVariable String categorieOiseau) {
         double moyenneCategorie = 0;
@@ -219,6 +181,51 @@ public class CritiqueController implements CommandLineRunner {
     }
 
 
+
+//    /**
+//     * Retourne la note la plus haute de toute la liste de critique
+//     *
+//     * @param listeCritique la liste de critique données
+//     * @return la note la plus haute
+//     */
+//    @GetMapping("/getNotePlusHaute/")
+//    public double notePlusHaute(@RequestBody List<Critique> listeCritique) {
+//        return listeCritique.stream()
+//                .mapToDouble(critique -> {
+//                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
+//                        return critiqueRepository.calculNoteGlobale(critique.getId());
+//                    } else {
+//                        throw new CritiqueNotFoundException();
+//                    }
+//                })
+//                .max()
+//                .orElseThrow(CritiqueNotFoundException::new);
+//    }
+//
+//    /**
+//     * Retourne la note la plus basse de toute la liste de critique
+//     *
+//     * @param listeCritique la liste de critique données
+//     * @return la note la plus basse
+//     */
+//    @GetMapping("/getNotePlusBasse/")
+//    public double notePlusBasse(@RequestBody List<Critique> listeCritique) {
+//        return listeCritique.stream()
+//                .mapToDouble(critique -> {
+//                    if (critiqueRepository.findById(critique.getId()).isPresent()) {
+//                        return critiqueRepository.calculNoteGlobale(critique.getId());
+//                    } else {
+//                        throw new CritiqueNotFoundException();
+//                    }
+//                })
+//                .min()
+//                .orElseThrow(CritiqueNotFoundException::new);
+//    }
+
+
+
+
+    /* ------------- Gestion des exceptions si une critique est non trouvée ou invalide -------------*/
 
     @ExceptionHandler(CritiqueInvalideException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
