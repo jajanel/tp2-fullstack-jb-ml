@@ -20,13 +20,16 @@ export default function ListeCritiques(props) {
         ajouterNouvelleCritique(nouvelleCritique);
     }
 
+    /**
+     * Permet de d'appeller la fonction du serveur pour ajouter une nouvelle critique
+     * @param critique la critique à ajouter à la base de données
+     */
     async function ajouterNouvelleCritique(critique) {
         setChargementAjouter(true);
         try {
             critique.id = await ajouterCritique(critique);
             props.setDataCritiques(old => [critique, ...old]);
         } catch (e) {
-            console.log(e);
             setErreurServeur({error: "error", message: e.message});
         } finally {
             setChargementAjouter(false);

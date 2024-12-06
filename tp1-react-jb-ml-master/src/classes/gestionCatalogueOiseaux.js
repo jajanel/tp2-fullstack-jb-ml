@@ -7,10 +7,6 @@ class GestionCatalogueOiseaux {
         this.oiseaux = JSON.parse(localStorage.getItem("dataOiseau")) || dataOiseau;
     }
 
-    getOiseaux() {
-        return this.oiseaux;
-    }
-
     /**
      * Retourne le nouvel id d'un oiseau
      * @returns {*} le nouvel id d'un oiseau

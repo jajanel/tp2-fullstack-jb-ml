@@ -4,7 +4,7 @@
 export async function fetchAllCritiques(){
     const response = await fetch("http://localhost:8080/critiques")
     if (!response.ok){
-        throw new Error ("Erreur du chargement de toutes les critiques. Pour: "+ await response.json())
+        throw new Error ("Erreur du chargement de toutes les critiques.")
     }
     return await response.json()
 }
@@ -16,7 +16,7 @@ export async function fetchAllCritiques(){
 export async function fetchCritiqueParOiseau(nomOiseau){
     const response = await fetch("http://localhost:8080/critiques/" + nomOiseau)
     if (!response.ok){
-        throw new Error ("Erreur du chargement de la critique de l'oiseau: " + nomOiseau + " pour: " + await response.json())
+        throw new Error ("Erreur du chargement de la critique de l'oiseau: " + nomOiseau)
     }
     return await response.json()
 
