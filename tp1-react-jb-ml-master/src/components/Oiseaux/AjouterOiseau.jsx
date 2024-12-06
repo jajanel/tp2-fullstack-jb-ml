@@ -27,7 +27,7 @@ export default function AjouterOiseau(props) {
         }
 
         if(verifierChampsAjouter(nouveauOiseau)){
-            setDataOiseaux(oiseaux=> oiseaux.concat(nouveauOiseau))
+            setDataOiseaux((old)=> [ nouveauOiseau, ...old])
             ajouterOiseau(nouveauOiseau);
             alert("L'oiseau #" + idOiseau + " a été créée");
             handleRemettrePlaceholder();
