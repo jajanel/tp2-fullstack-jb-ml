@@ -22,7 +22,7 @@ export default function AjouterOiseau(props) {
             race: formData.get("race"),
             prix: formData.get("prix"),
             origine: formData.get("origine"),
-            datePublication: dateFormat(new Date),
+            datePublication: formData.get("datePublication"),
             srcImage: srcImgForm
         }
 
@@ -114,7 +114,7 @@ export default function AjouterOiseau(props) {
                                     </div>
                                     <div className="pb-4">
                                         <h4 htmlFor="datePublication" className="form-label">Date de publication</h4>
-                                        <input disabled type="date" className="form-control form-select-lg" id="datePublication" name="datePublication" />
+                                        <input  type="date" className="form-control form-select-lg" id="datePublication" name="datePublication" />
                                     </div>
                                 </div>
                             </div>
