@@ -39,9 +39,6 @@ export default function AjouterOiseau(props) {
         }
     }
 
-    const jouerBruit = () => {
-        bruitOiseau.play();
-    }
 
     function verifierChampsAjouter(oiseau){
         let confirme = true;

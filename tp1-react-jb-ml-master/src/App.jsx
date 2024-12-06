@@ -16,14 +16,8 @@ function App() {
     const [categorieSelectionne, setCategorieSelectionne] = useState("tous");
     const [boolOiseauTrie, setBoolOiseauTrie] = useState(false);
     const [theme, setTheme] = useState("lumen");
-
-    //TODO MAEK
     const [dataOiseau,  setDataOiseau] = useState(() => getDonneesLocalStorage("dataOiseau", donnesOiseauxDefaut));
-
-
     const ouvertStatistiquesState = useState(false);
-
-
 
 
     // Resauvegarder les données dans le local storage à chauque changement

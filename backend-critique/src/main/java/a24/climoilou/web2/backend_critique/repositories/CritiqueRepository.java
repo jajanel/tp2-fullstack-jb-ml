@@ -14,8 +14,6 @@ Iterable<Critique> findAllByRaceOiseau (String raceOiseau);
 
 Iterable<Critique> findAllByCategorieOiseau (String categorieOiseau);
 
-Boolean existsByCategorieOiseau (String categorieOiseau);
-
 @Query("SELECT (c.temperament + c.beaute + c.utilisation)/3 FROM Critique c WHERE c.id = :id")
 Double calculNoteGlobale(@Param("id") Long id);
 
