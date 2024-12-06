@@ -11,6 +11,8 @@ export default function ModifierOiseau(props) {
         return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     }
 
+
+
     /**
      * Fonction qui modifie un oiseau dans le catalogue après avoir vérifié que les champs sont remplis
      * @param event le submit du bouton de modification
@@ -26,7 +28,7 @@ export default function ModifierOiseau(props) {
             race: formData.get("race"),
             prix: formData.get("prix"),
             origine: formData.get("origine"),
-            datePublication: props.date,
+            datePublication: formData.get("datePublication"),
             srcImage: srcImgForm
         }
 
@@ -88,8 +90,7 @@ export default function ModifierOiseau(props) {
                                 <div className="col mx-5">
                                     <div className="pb-4 text-start">
                                         <h4  className="form-label">Catégorie</h4>
-                                        <select className="form-select form-select-lg" name="categorie">
-                                            <option defaultValue="Choisir la catégorie de volaille">Choisir la catégorie de volaille</option>
+                                        <select className="form-select form-select-lg" name="categorie" defaultValue={props.categorie}>
                                             <option value="poule">Poule</option>
                                             <option value="canard">Canard</option>
                                             <option value="Oie">Oie</option>
@@ -110,8 +111,7 @@ export default function ModifierOiseau(props) {
                                     </div>
                                     <div className="pb-4 text-start">
                                         <h4 className="form-label">Origine</h4>
-                                        <select className="form-select form-select-lg " name="origine">
-                                            <option defaultValue={props.origine}>Choisir la région d'origine</option>
+                                        <select className="form-select form-select-lg " name="origine" defaultValue={props.origine}>
                                             <option value="afrique">Afrique</option>
                                             <option value="amerique">Amérique</option>
                                             <option value="europe">Europe</option>
@@ -122,7 +122,7 @@ export default function ModifierOiseau(props) {
                                     <div className="pb-4 text-start">
                                         <h4 className="form-label">Date de publication</h4>
                                         {/*La date est maintenant modifiable*/}
-                                        <input value={props.date} type="date" className="form-control form-select-lg" id="datePublication" name="datePublication" />
+                                        <input defaultValue={props.date} type="date" className="form-control form-select-lg" id="datePublication" name="datePublication" />
                                     </div>
                                 </div>
                             </div>
